@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { useAppState, useServices, type SessionStatus } from "@/services";
 
 export const Route = createFileRoute("/campaigns/$id/sessions/$sid")({
-  component: SessionDetail;
+  component: SessionDetail,
 });
 
 const statuses: SessionStatus[] = ["planned", "active", "done"];
