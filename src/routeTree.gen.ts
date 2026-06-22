@@ -15,6 +15,7 @@ import { Route as CampaignsIndexRouteImport } from './routes/campaigns.index'
 import { Route as CampaignsIdRouteImport } from './routes/campaigns.$id'
 import { Route as CampaignsIdIndexRouteImport } from './routes/campaigns.$id.index'
 import { Route as CampaignsIdCharactersIndexRouteImport } from './routes/campaigns.$id.characters.index'
+import { Route as CampaignsIdCharactersCidIndexRouteImport } from './routes/campaigns.$id.characters.$cid.index'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -47,6 +48,12 @@ const CampaignsIdCharactersIndexRoute =
     path: '/characters/',
     getParentRoute: () => CampaignsIdRoute,
   } as any)
+const CampaignsIdCharactersCidIndexRoute =
+  CampaignsIdCharactersCidIndexRouteImport.update({
+    id: '/characters/$cid/',
+    path: '/characters/$cid/',
+    getParentRoute: () => CampaignsIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -55,6 +62,7 @@ export interface FileRoutesByFullPath {
   '/campaigns/': typeof CampaignsIndexRoute
   '/campaigns/$id/': typeof CampaignsIdIndexRoute
   '/campaigns/$id/characters/': typeof CampaignsIdCharactersIndexRoute
+  '/campaigns/$id/characters/$cid/': typeof CampaignsIdCharactersCidIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +70,7 @@ export interface FileRoutesByTo {
   '/campaigns': typeof CampaignsIndexRoute
   '/campaigns/$id': typeof CampaignsIdIndexRoute
   '/campaigns/$id/characters': typeof CampaignsIdCharactersIndexRoute
+  '/campaigns/$id/characters/$cid': typeof CampaignsIdCharactersCidIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,6 +80,7 @@ export interface FileRoutesById {
   '/campaigns/': typeof CampaignsIndexRoute
   '/campaigns/$id/': typeof CampaignsIdIndexRoute
   '/campaigns/$id/characters/': typeof CampaignsIdCharactersIndexRoute
+  '/campaigns/$id/characters/$cid/': typeof CampaignsIdCharactersCidIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,6 +91,7 @@ export interface FileRouteTypes {
     | '/campaigns/'
     | '/campaigns/$id/'
     | '/campaigns/$id/characters/'
+    | '/campaigns/$id/characters/$cid/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -88,6 +99,7 @@ export interface FileRouteTypes {
     | '/campaigns'
     | '/campaigns/$id'
     | '/campaigns/$id/characters'
+    | '/campaigns/$id/characters/$cid'
   id:
     | '__root__'
     | '/'
@@ -96,6 +108,7 @@ export interface FileRouteTypes {
     | '/campaigns/'
     | '/campaigns/$id/'
     | '/campaigns/$id/characters/'
+    | '/campaigns/$id/characters/$cid/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -149,17 +162,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsIdCharactersIndexRouteImport
       parentRoute: typeof CampaignsIdRoute
     }
+    '/campaigns/$id/characters/$cid/': {
+      id: '/campaigns/$id/characters/$cid/'
+      path: '/characters/$cid'
+      fullPath: '/campaigns/$id/characters/$cid/'
+      preLoaderRoute: typeof CampaignsIdCharactersCidIndexRouteImport
+      parentRoute: typeof CampaignsIdRoute
+    }
   }
 }
 
 interface CampaignsIdRouteChildren {
   CampaignsIdIndexRoute: typeof CampaignsIdIndexRoute
   CampaignsIdCharactersIndexRoute: typeof CampaignsIdCharactersIndexRoute
+  CampaignsIdCharactersCidIndexRoute: typeof CampaignsIdCharactersCidIndexRoute
 }
 
 const CampaignsIdRouteChildren: CampaignsIdRouteChildren = {
   CampaignsIdIndexRoute: CampaignsIdIndexRoute,
   CampaignsIdCharactersIndexRoute: CampaignsIdCharactersIndexRoute,
+  CampaignsIdCharactersCidIndexRoute: CampaignsIdCharactersCidIndexRoute,
 }
 
 const CampaignsIdRouteWithChildren = CampaignsIdRoute._addFileChildren(
