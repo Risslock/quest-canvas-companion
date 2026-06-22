@@ -143,7 +143,7 @@ function ChatThread() {
           {status === "submitted" && (
             <Message from="assistant">
               <MessageContent>
-                <Shimmer>{character.name.split(" ")[0]} is considering…</Shimmer>
+                <Shimmer>{`${character.name.split(" ")[0]} is considering…`}</Shimmer>
               </MessageContent>
             </Message>
           )}

@@ -16,6 +16,7 @@ import { Route as CampaignsIdRouteImport } from './routes/campaigns.$id'
 import { Route as CampaignsIdIndexRouteImport } from './routes/campaigns.$id.index'
 import { Route as CampaignsIdCharactersIndexRouteImport } from './routes/campaigns.$id.characters.index'
 import { Route as CampaignsIdCharactersCidIndexRouteImport } from './routes/campaigns.$id.characters.$cid.index'
+import { Route as CampaignsIdCharactersCidThreadIdRouteImport } from './routes/campaigns.$id.characters.$cid.$threadId'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -54,6 +55,12 @@ const CampaignsIdCharactersCidIndexRoute =
     path: '/characters/$cid/',
     getParentRoute: () => CampaignsIdRoute,
   } as any)
+const CampaignsIdCharactersCidThreadIdRoute =
+  CampaignsIdCharactersCidThreadIdRouteImport.update({
+    id: '/characters/$cid/$threadId',
+    path: '/characters/$cid/$threadId',
+    getParentRoute: () => CampaignsIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/campaigns/': typeof CampaignsIndexRoute
   '/campaigns/$id/': typeof CampaignsIdIndexRoute
   '/campaigns/$id/characters/': typeof CampaignsIdCharactersIndexRoute
+  '/campaigns/$id/characters/$cid/$threadId': typeof CampaignsIdCharactersCidThreadIdRoute
   '/campaigns/$id/characters/$cid/': typeof CampaignsIdCharactersCidIndexRoute
 }
 export interface FileRoutesByTo {
@@ -70,6 +78,7 @@ export interface FileRoutesByTo {
   '/campaigns': typeof CampaignsIndexRoute
   '/campaigns/$id': typeof CampaignsIdIndexRoute
   '/campaigns/$id/characters': typeof CampaignsIdCharactersIndexRoute
+  '/campaigns/$id/characters/$cid/$threadId': typeof CampaignsIdCharactersCidThreadIdRoute
   '/campaigns/$id/characters/$cid': typeof CampaignsIdCharactersCidIndexRoute
 }
 export interface FileRoutesById {
@@ -80,6 +89,7 @@ export interface FileRoutesById {
   '/campaigns/': typeof CampaignsIndexRoute
   '/campaigns/$id/': typeof CampaignsIdIndexRoute
   '/campaigns/$id/characters/': typeof CampaignsIdCharactersIndexRoute
+  '/campaigns/$id/characters/$cid/$threadId': typeof CampaignsIdCharactersCidThreadIdRoute
   '/campaigns/$id/characters/$cid/': typeof CampaignsIdCharactersCidIndexRoute
 }
 export interface FileRouteTypes {
@@ -91,6 +101,7 @@ export interface FileRouteTypes {
     | '/campaigns/'
     | '/campaigns/$id/'
     | '/campaigns/$id/characters/'
+    | '/campaigns/$id/characters/$cid/$threadId'
     | '/campaigns/$id/characters/$cid/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +110,7 @@ export interface FileRouteTypes {
     | '/campaigns'
     | '/campaigns/$id'
     | '/campaigns/$id/characters'
+    | '/campaigns/$id/characters/$cid/$threadId'
     | '/campaigns/$id/characters/$cid'
   id:
     | '__root__'
@@ -108,6 +120,7 @@ export interface FileRouteTypes {
     | '/campaigns/'
     | '/campaigns/$id/'
     | '/campaigns/$id/characters/'
+    | '/campaigns/$id/characters/$cid/$threadId'
     | '/campaigns/$id/characters/$cid/'
   fileRoutesById: FileRoutesById
 }
@@ -169,18 +182,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsIdCharactersCidIndexRouteImport
       parentRoute: typeof CampaignsIdRoute
     }
+    '/campaigns/$id/characters/$cid/$threadId': {
+      id: '/campaigns/$id/characters/$cid/$threadId'
+      path: '/characters/$cid/$threadId'
+      fullPath: '/campaigns/$id/characters/$cid/$threadId'
+      preLoaderRoute: typeof CampaignsIdCharactersCidThreadIdRouteImport
+      parentRoute: typeof CampaignsIdRoute
+    }
   }
 }
 
 interface CampaignsIdRouteChildren {
   CampaignsIdIndexRoute: typeof CampaignsIdIndexRoute
   CampaignsIdCharactersIndexRoute: typeof CampaignsIdCharactersIndexRoute
+  CampaignsIdCharactersCidThreadIdRoute: typeof CampaignsIdCharactersCidThreadIdRoute
   CampaignsIdCharactersCidIndexRoute: typeof CampaignsIdCharactersCidIndexRoute
 }
 
 const CampaignsIdRouteChildren: CampaignsIdRouteChildren = {
   CampaignsIdIndexRoute: CampaignsIdIndexRoute,
   CampaignsIdCharactersIndexRoute: CampaignsIdCharactersIndexRoute,
+  CampaignsIdCharactersCidThreadIdRoute: CampaignsIdCharactersCidThreadIdRoute,
   CampaignsIdCharactersCidIndexRoute: CampaignsIdCharactersCidIndexRoute,
 }
 
