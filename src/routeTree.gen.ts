@@ -9,38 +9,174 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CampaignsIndexRouteImport } from './routes/campaigns.index'
+import { Route as CampaignsIdRouteImport } from './routes/campaigns.$id'
+import { Route as CampaignsIdIndexRouteImport } from './routes/campaigns.$id.index'
+import { Route as CampaignsIdImagesRouteImport } from './routes/campaigns.$id.images'
+import { Route as CampaignsIdSessionsIndexRouteImport } from './routes/campaigns.$id.sessions.index'
+import { Route as CampaignsIdCharactersIndexRouteImport } from './routes/campaigns.$id.characters.index'
+import { Route as CampaignsIdSessionsSidRouteImport } from './routes/campaigns.$id.sessions.$sid'
+import { Route as CampaignsIdCharactersCidIndexRouteImport } from './routes/campaigns.$id.characters.$cid.index'
+import { Route as CampaignsIdCharactersCidThreadIdRouteImport } from './routes/campaigns.$id.characters.$cid.$threadId'
 
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CampaignsIndexRoute = CampaignsIndexRouteImport.update({
+  id: '/campaigns/',
+  path: '/campaigns/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampaignsIdRoute = CampaignsIdRouteImport.update({
+  id: '/campaigns/$id',
+  path: '/campaigns/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampaignsIdIndexRoute = CampaignsIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CampaignsIdRoute,
+} as any)
+const CampaignsIdImagesRoute = CampaignsIdImagesRouteImport.update({
+  id: '/images',
+  path: '/images',
+  getParentRoute: () => CampaignsIdRoute,
+} as any)
+const CampaignsIdSessionsIndexRoute =
+  CampaignsIdSessionsIndexRouteImport.update({
+    id: '/sessions/',
+    path: '/sessions/',
+    getParentRoute: () => CampaignsIdRoute,
+  } as any)
+const CampaignsIdCharactersIndexRoute =
+  CampaignsIdCharactersIndexRouteImport.update({
+    id: '/characters/',
+    path: '/characters/',
+    getParentRoute: () => CampaignsIdRoute,
+  } as any)
+const CampaignsIdSessionsSidRoute = CampaignsIdSessionsSidRouteImport.update({
+  id: '/sessions/$sid',
+  path: '/sessions/$sid',
+  getParentRoute: () => CampaignsIdRoute,
+} as any)
+const CampaignsIdCharactersCidIndexRoute =
+  CampaignsIdCharactersCidIndexRouteImport.update({
+    id: '/characters/$cid/',
+    path: '/characters/$cid/',
+    getParentRoute: () => CampaignsIdRoute,
+  } as any)
+const CampaignsIdCharactersCidThreadIdRoute =
+  CampaignsIdCharactersCidThreadIdRouteImport.update({
+    id: '/characters/$cid/$threadId',
+    path: '/characters/$cid/$threadId',
+    getParentRoute: () => CampaignsIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/campaigns/$id': typeof CampaignsIdRouteWithChildren
+  '/campaigns/': typeof CampaignsIndexRoute
+  '/campaigns/$id/images': typeof CampaignsIdImagesRoute
+  '/campaigns/$id/': typeof CampaignsIdIndexRoute
+  '/campaigns/$id/sessions/$sid': typeof CampaignsIdSessionsSidRoute
+  '/campaigns/$id/characters/': typeof CampaignsIdCharactersIndexRoute
+  '/campaigns/$id/sessions/': typeof CampaignsIdSessionsIndexRoute
+  '/campaigns/$id/characters/$cid/$threadId': typeof CampaignsIdCharactersCidThreadIdRoute
+  '/campaigns/$id/characters/$cid/': typeof CampaignsIdCharactersCidIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/campaigns': typeof CampaignsIndexRoute
+  '/campaigns/$id/images': typeof CampaignsIdImagesRoute
+  '/campaigns/$id': typeof CampaignsIdIndexRoute
+  '/campaigns/$id/sessions/$sid': typeof CampaignsIdSessionsSidRoute
+  '/campaigns/$id/characters': typeof CampaignsIdCharactersIndexRoute
+  '/campaigns/$id/sessions': typeof CampaignsIdSessionsIndexRoute
+  '/campaigns/$id/characters/$cid/$threadId': typeof CampaignsIdCharactersCidThreadIdRoute
+  '/campaigns/$id/characters/$cid': typeof CampaignsIdCharactersCidIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/campaigns/$id': typeof CampaignsIdRouteWithChildren
+  '/campaigns/': typeof CampaignsIndexRoute
+  '/campaigns/$id/images': typeof CampaignsIdImagesRoute
+  '/campaigns/$id/': typeof CampaignsIdIndexRoute
+  '/campaigns/$id/sessions/$sid': typeof CampaignsIdSessionsSidRoute
+  '/campaigns/$id/characters/': typeof CampaignsIdCharactersIndexRoute
+  '/campaigns/$id/sessions/': typeof CampaignsIdSessionsIndexRoute
+  '/campaigns/$id/characters/$cid/$threadId': typeof CampaignsIdCharactersCidThreadIdRoute
+  '/campaigns/$id/characters/$cid/': typeof CampaignsIdCharactersCidIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/campaigns/$id'
+    | '/campaigns/'
+    | '/campaigns/$id/images'
+    | '/campaigns/$id/'
+    | '/campaigns/$id/sessions/$sid'
+    | '/campaigns/$id/characters/'
+    | '/campaigns/$id/sessions/'
+    | '/campaigns/$id/characters/$cid/$threadId'
+    | '/campaigns/$id/characters/$cid/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/campaigns'
+    | '/campaigns/$id/images'
+    | '/campaigns/$id'
+    | '/campaigns/$id/sessions/$sid'
+    | '/campaigns/$id/characters'
+    | '/campaigns/$id/sessions'
+    | '/campaigns/$id/characters/$cid/$threadId'
+    | '/campaigns/$id/characters/$cid'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/campaigns/$id'
+    | '/campaigns/'
+    | '/campaigns/$id/images'
+    | '/campaigns/$id/'
+    | '/campaigns/$id/sessions/$sid'
+    | '/campaigns/$id/characters/'
+    | '/campaigns/$id/sessions/'
+    | '/campaigns/$id/characters/$cid/$threadId'
+    | '/campaigns/$id/characters/$cid/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
+  CampaignsIdRoute: typeof CampaignsIdRouteWithChildren
+  CampaignsIndexRoute: typeof CampaignsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +184,101 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campaigns/': {
+      id: '/campaigns/'
+      path: '/campaigns'
+      fullPath: '/campaigns/'
+      preLoaderRoute: typeof CampaignsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campaigns/$id': {
+      id: '/campaigns/$id'
+      path: '/campaigns/$id'
+      fullPath: '/campaigns/$id'
+      preLoaderRoute: typeof CampaignsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campaigns/$id/': {
+      id: '/campaigns/$id/'
+      path: '/'
+      fullPath: '/campaigns/$id/'
+      preLoaderRoute: typeof CampaignsIdIndexRouteImport
+      parentRoute: typeof CampaignsIdRoute
+    }
+    '/campaigns/$id/images': {
+      id: '/campaigns/$id/images'
+      path: '/images'
+      fullPath: '/campaigns/$id/images'
+      preLoaderRoute: typeof CampaignsIdImagesRouteImport
+      parentRoute: typeof CampaignsIdRoute
+    }
+    '/campaigns/$id/sessions/': {
+      id: '/campaigns/$id/sessions/'
+      path: '/sessions'
+      fullPath: '/campaigns/$id/sessions/'
+      preLoaderRoute: typeof CampaignsIdSessionsIndexRouteImport
+      parentRoute: typeof CampaignsIdRoute
+    }
+    '/campaigns/$id/characters/': {
+      id: '/campaigns/$id/characters/'
+      path: '/characters'
+      fullPath: '/campaigns/$id/characters/'
+      preLoaderRoute: typeof CampaignsIdCharactersIndexRouteImport
+      parentRoute: typeof CampaignsIdRoute
+    }
+    '/campaigns/$id/sessions/$sid': {
+      id: '/campaigns/$id/sessions/$sid'
+      path: '/sessions/$sid'
+      fullPath: '/campaigns/$id/sessions/$sid'
+      preLoaderRoute: typeof CampaignsIdSessionsSidRouteImport
+      parentRoute: typeof CampaignsIdRoute
+    }
+    '/campaigns/$id/characters/$cid/': {
+      id: '/campaigns/$id/characters/$cid/'
+      path: '/characters/$cid'
+      fullPath: '/campaigns/$id/characters/$cid/'
+      preLoaderRoute: typeof CampaignsIdCharactersCidIndexRouteImport
+      parentRoute: typeof CampaignsIdRoute
+    }
+    '/campaigns/$id/characters/$cid/$threadId': {
+      id: '/campaigns/$id/characters/$cid/$threadId'
+      path: '/characters/$cid/$threadId'
+      fullPath: '/campaigns/$id/characters/$cid/$threadId'
+      preLoaderRoute: typeof CampaignsIdCharactersCidThreadIdRouteImport
+      parentRoute: typeof CampaignsIdRoute
+    }
   }
 }
 
+interface CampaignsIdRouteChildren {
+  CampaignsIdImagesRoute: typeof CampaignsIdImagesRoute
+  CampaignsIdIndexRoute: typeof CampaignsIdIndexRoute
+  CampaignsIdSessionsSidRoute: typeof CampaignsIdSessionsSidRoute
+  CampaignsIdCharactersIndexRoute: typeof CampaignsIdCharactersIndexRoute
+  CampaignsIdSessionsIndexRoute: typeof CampaignsIdSessionsIndexRoute
+  CampaignsIdCharactersCidThreadIdRoute: typeof CampaignsIdCharactersCidThreadIdRoute
+  CampaignsIdCharactersCidIndexRoute: typeof CampaignsIdCharactersCidIndexRoute
+}
+
+const CampaignsIdRouteChildren: CampaignsIdRouteChildren = {
+  CampaignsIdImagesRoute: CampaignsIdImagesRoute,
+  CampaignsIdIndexRoute: CampaignsIdIndexRoute,
+  CampaignsIdSessionsSidRoute: CampaignsIdSessionsSidRoute,
+  CampaignsIdCharactersIndexRoute: CampaignsIdCharactersIndexRoute,
+  CampaignsIdSessionsIndexRoute: CampaignsIdSessionsIndexRoute,
+  CampaignsIdCharactersCidThreadIdRoute: CampaignsIdCharactersCidThreadIdRoute,
+  CampaignsIdCharactersCidIndexRoute: CampaignsIdCharactersCidIndexRoute,
+}
+
+const CampaignsIdRouteWithChildren = CampaignsIdRoute._addFileChildren(
+  CampaignsIdRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
+  CampaignsIdRoute: CampaignsIdRouteWithChildren,
+  CampaignsIndexRoute: CampaignsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
