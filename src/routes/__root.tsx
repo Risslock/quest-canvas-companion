@@ -79,18 +79,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Barsaive Chronicle — Earthdawn Roleplaying Companion" },
+      { title: "StoryWeaver — AI Companion for Tabletop RPG Campaigns" },
       {
         name: "description",
         content:
-          "An Earthdawn 4e companion: AI-powered character digital twins, art generation, and session planning for your table.",
+          "StoryWeaver is an AI tabletop RPG companion: persistent character digital twins, an automatic story timeline, cited rules Q&A, portrait & scene art, and GM session planning.",
       },
-      { name: "author", content: "Barsaive Chronicle" },
-      { property: "og:title", content: "Barsaive Chronicle — Earthdawn Companion" },
+      { name: "author", content: "StoryWeaver" },
+      { property: "og:title", content: "StoryWeaver — AI Companion for Tabletop RPGs" },
       {
         property: "og:description",
         content:
-          "AI digital twins for characters and NPCs, image generation, and session notes for Earthdawn 4e.",
+          "Living digital twins, an automatic campaign timeline, cited rules Q&A, and AI session planning — the intelligent companion that remembers every detail.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
