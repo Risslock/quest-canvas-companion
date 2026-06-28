@@ -45,14 +45,18 @@
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
 
-  /* Earthdawn semantic accents */
+  /* StoryWeaver semantic accents */
   --color-parchment: var(--parchment);
+  --color-parchment-foreground: var(--parchment-foreground);
   --color-vellum: var(--vellum);
   --color-ink: var(--ink);
   --color-gold: var(--gold);
   --color-gold-foreground: var(--gold-foreground);
-  --color-crimson: var(--crimson);
-  --color-crimson-foreground: var(--crimson-foreground);
+  --color-ember: var(--ember);
+  --color-ember-foreground: var(--ember-foreground);
+  /* Back-compat alias: crimson maps to ember */
+  --color-crimson: var(--ember);
+  --color-crimson-foreground: var(--ember-foreground);
 
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
