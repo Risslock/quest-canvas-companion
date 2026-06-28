@@ -211,3 +211,35 @@
 @utility animate-arcane-pulse {
   animation: arcane-pulse 2.4s ease-in-out infinite;
 }
+
+/* Aged-parchment reading surface for journal / timeline panels */
+@utility surface-parchment {
+  background-color: var(--parchment);
+  color: var(--parchment-foreground);
+  background-image:
+    radial-gradient(
+      circle at 20% 15%,
+      color-mix(in oklab, var(--ember) 7%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 85% 90%,
+      color-mix(in oklab, var(--gold) 9%, transparent),
+      transparent 55%
+    );
+}
+
+@utility glow-gold {
+  box-shadow: var(--shadow-glow-gold);
+}
+
+@utility text-gradient-arcane {
+  background: linear-gradient(
+    100deg,
+    var(--gold),
+    color-mix(in oklab, var(--gold) 55%, var(--ember))
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
