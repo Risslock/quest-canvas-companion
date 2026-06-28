@@ -15,7 +15,7 @@ export const Route = createFileRoute("/campaigns/$id/images")({
   validateSearch: (search: Record<string, unknown>): ImageSearch => ({
     prompt: typeof search.prompt === "string" ? search.prompt : undefined,
   }),
-  head: () => ({ meta: [{ title: "Forge of Visions — Barsaive Chronicle" }] }),
+  head: () => ({ meta: [{ title: "Forge of Visions — StoryWeaver" }] }),
   component: ImagesPage,
 });
 

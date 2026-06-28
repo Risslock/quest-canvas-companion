@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { useAppState, useServices, type SessionStatus } from "@/services";
 
 export const Route = createFileRoute("/campaigns/$id/sessions/")({
-  head: () => ({ meta: [{ title: "Session Logs — Barsaive Chronicle" }] }),
+  head: () => ({ meta: [{ title: "Session Logs — StoryWeaver" }] }),
   component: SessionsPage,
 });
 
