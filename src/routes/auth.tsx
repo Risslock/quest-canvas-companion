@@ -11,7 +11,7 @@ import { useAuth, type UserRole } from "@/services";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
-    meta: [{ title: "Sign In — Barsaive Chronicle" }],
+    meta: [{ title: "Sign In — StoryWeaver" }],
   }),
   component: AuthPage,
 });
