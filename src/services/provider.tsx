@@ -8,7 +8,13 @@ import {
 } from "react";
 
 import { mockAuthProvider } from "./auth";
-import { mockChatProvider, mockImageProvider, mockSummaryProvider } from "./ai";
+import {
+  mockChatProvider,
+  mockImageProvider,
+  mockKnowledgeProvider,
+  mockPlannerProvider,
+  mockSummaryProvider,
+} from "./ai";
 import type { Services } from "./interfaces";
 import { store } from "./store";
 import type { AppState, User } from "./types";
@@ -24,6 +30,8 @@ const services: Services = {
   ai: mockChatProvider,
   summary: mockSummaryProvider,
   images: mockImageProvider,
+  knowledge: mockKnowledgeProvider,
+  planner: mockPlannerProvider,
 };
 
 const ServicesContext = createContext<Services>(services);
