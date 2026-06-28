@@ -135,14 +135,26 @@ function SessionDetail() {
       <div className="grid grid-cols-12 gap-8">
         {/* Planning */}
         <section className="col-span-12 lg:col-span-6">
-          <h3 className="mb-3 font-display text-lg italic text-primary underline decoration-accent/30">
-            Planning
-          </h3>
+          <div className="mb-3 flex items-center justify-between">
+            <h3 className="font-display text-lg italic text-primary underline decoration-accent/30">
+              Planning
+            </h3>
+            <Button
+              onClick={generateOutline}
+              disabled={planning}
+              variant="outline"
+              size="sm"
+              className="border-accent/40 font-display text-[10px] tracking-widest text-accent hover:bg-accent hover:text-accent-foreground"
+            >
+              <Wand2 className="size-3.5" />
+              {planning ? "PLANNING…" : "PLAN WITH AI"}
+            </Button>
+          </div>
           <Textarea
             value={session.plan}
             onChange={(e) => data.updateSession(sid, { plan: e.target.value })}
-            rows={8}
-            placeholder="Outline scenes, encounters, hooks, and the beats you want to hit…"
+            rows={12}
+            placeholder="Outline scenes, encounters, hooks, and the beats you want to hit… or let the AI draft one from your campaign history."
             className="resize-none bg-card"
           />
         </section>
