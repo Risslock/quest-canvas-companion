@@ -1,6 +1,19 @@
-import type { ChatProvider, ImageProvider, SummaryProvider } from "./interfaces";
+import type {
+  ChatProvider,
+  ImageProvider,
+  KnowledgeProvider,
+  PlannerProvider,
+  RuleCitation,
+  SummaryProvider,
+} from "./interfaces";
 import { mockImagePool } from "./seed";
-import type { Character, ChatMessage, ImageKind, Session } from "./types";
+import type {
+  Character,
+  ChatMessage,
+  ImageKind,
+  KnowledgeSource,
+  Session,
+} from "./types";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
