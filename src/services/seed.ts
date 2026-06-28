@@ -98,6 +98,16 @@ export function createSeedState(): AppState {
           "Spell Defense": 10,
           "Astral Sensing": "Rank 4",
         },
+        talents: ["Spellcasting", "Astral Sight", "Spirit Talk", "Thread Weaving"],
+        goals: [
+          "Learn what the Blood Wood elves truly bargained away",
+          "Earn the trust of a spirit that will not lie",
+        ],
+        relationships: [
+          { name: "Korgath the Unbroken", relation: "Reluctant protector" },
+          { name: "Vhalon the Merchant", relation: "Owes her a favor" },
+        ],
+        ownerUserId: "user-player",
         createdAt: now - 37 * DAY,
       },
       {
