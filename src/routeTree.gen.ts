@@ -17,6 +17,7 @@ import { Route as CampaignsIdIndexRouteImport } from './routes/campaigns.$id.ind
 import { Route as CampaignsIdTimelineRouteImport } from './routes/campaigns.$id.timeline'
 import { Route as CampaignsIdRulesRouteImport } from './routes/campaigns.$id.rules'
 import { Route as CampaignsIdImagesRouteImport } from './routes/campaigns.$id.images'
+import { Route as CampaignsIdEvalRouteImport } from './routes/campaigns.$id.eval'
 import { Route as CampaignsIdSessionsIndexRouteImport } from './routes/campaigns.$id.sessions.index'
 import { Route as CampaignsIdCharactersIndexRouteImport } from './routes/campaigns.$id.characters.index'
 import { Route as CampaignsIdSessionsSidRouteImport } from './routes/campaigns.$id.sessions.$sid'
@@ -63,6 +64,11 @@ const CampaignsIdImagesRoute = CampaignsIdImagesRouteImport.update({
   path: '/images',
   getParentRoute: () => CampaignsIdRoute,
 } as any)
+const CampaignsIdEvalRoute = CampaignsIdEvalRouteImport.update({
+  id: '/eval',
+  path: '/eval',
+  getParentRoute: () => CampaignsIdRoute,
+} as any)
 const CampaignsIdSessionsIndexRoute =
   CampaignsIdSessionsIndexRouteImport.update({
     id: '/sessions/',
@@ -98,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/campaigns/$id': typeof CampaignsIdRouteWithChildren
   '/campaigns/': typeof CampaignsIndexRoute
+  '/campaigns/$id/eval': typeof CampaignsIdEvalRoute
   '/campaigns/$id/images': typeof CampaignsIdImagesRoute
   '/campaigns/$id/rules': typeof CampaignsIdRulesRoute
   '/campaigns/$id/timeline': typeof CampaignsIdTimelineRoute
@@ -112,6 +119,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/campaigns': typeof CampaignsIndexRoute
+  '/campaigns/$id/eval': typeof CampaignsIdEvalRoute
   '/campaigns/$id/images': typeof CampaignsIdImagesRoute
   '/campaigns/$id/rules': typeof CampaignsIdRulesRoute
   '/campaigns/$id/timeline': typeof CampaignsIdTimelineRoute
@@ -128,6 +136,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/campaigns/$id': typeof CampaignsIdRouteWithChildren
   '/campaigns/': typeof CampaignsIndexRoute
+  '/campaigns/$id/eval': typeof CampaignsIdEvalRoute
   '/campaigns/$id/images': typeof CampaignsIdImagesRoute
   '/campaigns/$id/rules': typeof CampaignsIdRulesRoute
   '/campaigns/$id/timeline': typeof CampaignsIdTimelineRoute
@@ -145,6 +154,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/campaigns/$id'
     | '/campaigns/'
+    | '/campaigns/$id/eval'
     | '/campaigns/$id/images'
     | '/campaigns/$id/rules'
     | '/campaigns/$id/timeline'
@@ -159,6 +169,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/campaigns'
+    | '/campaigns/$id/eval'
     | '/campaigns/$id/images'
     | '/campaigns/$id/rules'
     | '/campaigns/$id/timeline'
@@ -174,6 +185,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/campaigns/$id'
     | '/campaigns/'
+    | '/campaigns/$id/eval'
     | '/campaigns/$id/images'
     | '/campaigns/$id/rules'
     | '/campaigns/$id/timeline'
@@ -250,6 +262,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsIdImagesRouteImport
       parentRoute: typeof CampaignsIdRoute
     }
+    '/campaigns/$id/eval': {
+      id: '/campaigns/$id/eval'
+      path: '/eval'
+      fullPath: '/campaigns/$id/eval'
+      preLoaderRoute: typeof CampaignsIdEvalRouteImport
+      parentRoute: typeof CampaignsIdRoute
+    }
     '/campaigns/$id/sessions/': {
       id: '/campaigns/$id/sessions/'
       path: '/sessions'
@@ -289,6 +308,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface CampaignsIdRouteChildren {
+  CampaignsIdEvalRoute: typeof CampaignsIdEvalRoute
   CampaignsIdImagesRoute: typeof CampaignsIdImagesRoute
   CampaignsIdRulesRoute: typeof CampaignsIdRulesRoute
   CampaignsIdTimelineRoute: typeof CampaignsIdTimelineRoute
@@ -301,6 +321,7 @@ interface CampaignsIdRouteChildren {
 }
 
 const CampaignsIdRouteChildren: CampaignsIdRouteChildren = {
+  CampaignsIdEvalRoute: CampaignsIdEvalRoute,
   CampaignsIdImagesRoute: CampaignsIdImagesRoute,
   CampaignsIdRulesRoute: CampaignsIdRulesRoute,
   CampaignsIdTimelineRoute: CampaignsIdTimelineRoute,
