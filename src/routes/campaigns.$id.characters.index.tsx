@@ -85,13 +85,19 @@ function RosterPage() {
             The heroes and horrors of your chronicle. Each carries a digital twin.
           </p>
         </div>
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button className="font-display tracking-widest">
-              <Plus className="size-4" /> NEW CHARACTER
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-h-[85vh] overflow-y-auto">
+        <div className="flex gap-2">
+          <Button asChild variant="outline" className="font-display tracking-widest">
+            <Link to="/campaigns/$id/characters/new" params={{ id }}>
+              <Sparkles className="size-4" /> GUIDED CREATION
+            </Link>
+          </Button>
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button className="font-display tracking-widest">
+                <Plus className="size-4" /> QUICK ADD
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-h-[85vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="font-display">Inscribe a new soul</DialogTitle>
             </DialogHeader>
