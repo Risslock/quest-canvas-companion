@@ -12,7 +12,7 @@ export function BrandMark({
   return (
     <img
       src={logoSigil}
-      alt="Barsaive Chronicle sigil"
+      alt="StoryWeaver sigil"
       width={size}
       height={size}
       className={cn("object-contain", className)}
@@ -26,10 +26,10 @@ export function Brand({ className, to = "/" }: { className?: string; to?: string
       <BrandMark size={42} />
       <span className="leading-none">
         <span className="block font-display text-lg font-bold tracking-tight text-primary">
-          BARSAIVE
+          STORY
         </span>
-        <span className="block font-display text-xs tracking-[0.3em] text-accent">
-          CHRONICLE
+        <span className="block font-display text-xs tracking-[0.34em] text-accent">
+          WEAVER
         </span>
       </span>
     </Link>
