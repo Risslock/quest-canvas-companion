@@ -72,8 +72,10 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --shadow-arcane: 0 18px 40px -20px color-mix(in oklab, var(--crimson) 35%, transparent);
+  --shadow-arcane: 0 24px 60px -28px color-mix(in oklab, var(--ember) 45%, transparent);
+  --shadow-glow-gold: 0 0 28px -2px color-mix(in oklab, var(--gold) 45%, transparent);
 }
+
 
 :root {
   --radius: 0.5rem;
