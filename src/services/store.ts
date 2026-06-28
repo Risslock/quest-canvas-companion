@@ -6,11 +6,14 @@ import type {
   Character,
   ChatMessage,
   ChatThread,
+  EvalRecord,
   GeneratedImage,
+  KnowledgeSource,
   Session,
+  TimelineEvent,
 } from "./types";
 
-const STORAGE_KEY = "barsaive-chronicle.state.v1";
+const STORAGE_KEY = "storyweaver.state.v1";
 
 const uid = () =>
   typeof crypto !== "undefined" && "randomUUID" in crypto
