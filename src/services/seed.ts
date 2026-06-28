@@ -26,8 +26,14 @@ export function createSeedState(): AppState {
   return {
     currentUserId: "user-gm",
     users: [
-      { id: "user-gm", name: "Game Master", email: "gm@barsaive.dev", role: "gm" },
-      { id: "user-player", name: "Aria", email: "aria@barsaive.dev", role: "player" },
+      { id: "user-gm", name: "Game Master", email: "gm@storyweaver.dev", role: "gm" },
+      {
+        id: "user-player",
+        name: "Aria",
+        email: "aria@storyweaver.dev",
+        role: "player",
+        characterId: ch.zephyrine,
+      },
     ],
     campaigns: [
       {
