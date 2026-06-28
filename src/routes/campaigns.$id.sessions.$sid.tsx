@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { ArrowLeft, ScrollText, Sparkles } from "lucide-react";
+import { useMemo, useState } from "react";
+import { ArrowLeft, ScrollText, Sparkles, Wand2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -24,15 +24,45 @@ const statusLabel: Record<SessionStatus, string> = {
 function SessionDetail() {
   const { id, sid } = Route.useParams();
   const state = useAppState();
-  const { data, summary } = useServices();
+  const { data, summary, planner } = useServices();
 
   const session = state.sessions.find((s) => s.id === sid);
   const [summarizing, setSummarizing] = useState(false);
   const [streamingSummary, setStreamingSummary] = useState("");
+  const [planning, setPlanning] = useState(false);
+
+  const campaign = useMemo(
+    () => state.campaigns.find((c) => c.id === id),
+    [state.campaigns, id],
+  );
 
   if (!session) {
     return <div className="p-8 text-muted-foreground">Session not found.</div>;
   }
+
+  const generateOutline = async () => {
+    if (planning || !campaign) return;
+    setPlanning(true);
+    try {
+      let acc = "";
+      const input = {
+        campaign,
+        sessions: state.sessions.filter((s) => s.campaignId === id),
+        characters: state.characters.filter((c) => c.campaignId === id),
+        timeline: state.timeline.filter((e) => e.campaignId === id),
+      };
+      for await (const token of planner.streamOutline(input)) {
+        acc += token;
+        data.updateSession(sid, { plan: acc });
+      }
+      toast.success("Session outline drafted.");
+    } catch {
+      toast.error("The planner faltered. Try again.");
+    } finally {
+      setPlanning(false);
+    }
+  };
+
 
   const generateSummary = async () => {
     if (summarizing) return;
