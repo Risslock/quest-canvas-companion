@@ -25,7 +25,7 @@ import {
 } from "@/services";
 
 export const Route = createFileRoute("/campaigns/$id/characters/")({
-  head: () => ({ meta: [{ title: "Character Roster — Barsaive Chronicle" }] }),
+  head: () => ({ meta: [{ title: "Character Roster — StoryWeaver" }] }),
   component: RosterPage,
 });
 
