@@ -14,6 +14,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CampaignsIndexRouteImport } from './routes/campaigns.index'
 import { Route as CampaignsIdRouteImport } from './routes/campaigns.$id'
 import { Route as CampaignsIdIndexRouteImport } from './routes/campaigns.$id.index'
+import { Route as CampaignsIdTimelineRouteImport } from './routes/campaigns.$id.timeline'
 import { Route as CampaignsIdImagesRouteImport } from './routes/campaigns.$id.images'
 import { Route as CampaignsIdSessionsIndexRouteImport } from './routes/campaigns.$id.sessions.index'
 import { Route as CampaignsIdCharactersIndexRouteImport } from './routes/campaigns.$id.characters.index'
@@ -44,6 +45,11 @@ const CampaignsIdRoute = CampaignsIdRouteImport.update({
 const CampaignsIdIndexRoute = CampaignsIdIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => CampaignsIdRoute,
+} as any)
+const CampaignsIdTimelineRoute = CampaignsIdTimelineRouteImport.update({
+  id: '/timeline',
+  path: '/timeline',
   getParentRoute: () => CampaignsIdRoute,
 } as any)
 const CampaignsIdImagesRoute = CampaignsIdImagesRouteImport.update({
@@ -87,6 +93,7 @@ export interface FileRoutesByFullPath {
   '/campaigns/$id': typeof CampaignsIdRouteWithChildren
   '/campaigns/': typeof CampaignsIndexRoute
   '/campaigns/$id/images': typeof CampaignsIdImagesRoute
+  '/campaigns/$id/timeline': typeof CampaignsIdTimelineRoute
   '/campaigns/$id/': typeof CampaignsIdIndexRoute
   '/campaigns/$id/sessions/$sid': typeof CampaignsIdSessionsSidRoute
   '/campaigns/$id/characters/': typeof CampaignsIdCharactersIndexRoute
@@ -99,6 +106,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/campaigns': typeof CampaignsIndexRoute
   '/campaigns/$id/images': typeof CampaignsIdImagesRoute
+  '/campaigns/$id/timeline': typeof CampaignsIdTimelineRoute
   '/campaigns/$id': typeof CampaignsIdIndexRoute
   '/campaigns/$id/sessions/$sid': typeof CampaignsIdSessionsSidRoute
   '/campaigns/$id/characters': typeof CampaignsIdCharactersIndexRoute
@@ -113,6 +121,7 @@ export interface FileRoutesById {
   '/campaigns/$id': typeof CampaignsIdRouteWithChildren
   '/campaigns/': typeof CampaignsIndexRoute
   '/campaigns/$id/images': typeof CampaignsIdImagesRoute
+  '/campaigns/$id/timeline': typeof CampaignsIdTimelineRoute
   '/campaigns/$id/': typeof CampaignsIdIndexRoute
   '/campaigns/$id/sessions/$sid': typeof CampaignsIdSessionsSidRoute
   '/campaigns/$id/characters/': typeof CampaignsIdCharactersIndexRoute
@@ -128,6 +137,7 @@ export interface FileRouteTypes {
     | '/campaigns/$id'
     | '/campaigns/'
     | '/campaigns/$id/images'
+    | '/campaigns/$id/timeline'
     | '/campaigns/$id/'
     | '/campaigns/$id/sessions/$sid'
     | '/campaigns/$id/characters/'
@@ -140,6 +150,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/campaigns'
     | '/campaigns/$id/images'
+    | '/campaigns/$id/timeline'
     | '/campaigns/$id'
     | '/campaigns/$id/sessions/$sid'
     | '/campaigns/$id/characters'
@@ -153,6 +164,7 @@ export interface FileRouteTypes {
     | '/campaigns/$id'
     | '/campaigns/'
     | '/campaigns/$id/images'
+    | '/campaigns/$id/timeline'
     | '/campaigns/$id/'
     | '/campaigns/$id/sessions/$sid'
     | '/campaigns/$id/characters/'
@@ -205,6 +217,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsIdIndexRouteImport
       parentRoute: typeof CampaignsIdRoute
     }
+    '/campaigns/$id/timeline': {
+      id: '/campaigns/$id/timeline'
+      path: '/timeline'
+      fullPath: '/campaigns/$id/timeline'
+      preLoaderRoute: typeof CampaignsIdTimelineRouteImport
+      parentRoute: typeof CampaignsIdRoute
+    }
     '/campaigns/$id/images': {
       id: '/campaigns/$id/images'
       path: '/images'
@@ -252,6 +271,7 @@ declare module '@tanstack/react-router' {
 
 interface CampaignsIdRouteChildren {
   CampaignsIdImagesRoute: typeof CampaignsIdImagesRoute
+  CampaignsIdTimelineRoute: typeof CampaignsIdTimelineRoute
   CampaignsIdIndexRoute: typeof CampaignsIdIndexRoute
   CampaignsIdSessionsSidRoute: typeof CampaignsIdSessionsSidRoute
   CampaignsIdCharactersIndexRoute: typeof CampaignsIdCharactersIndexRoute
@@ -262,6 +282,7 @@ interface CampaignsIdRouteChildren {
 
 const CampaignsIdRouteChildren: CampaignsIdRouteChildren = {
   CampaignsIdImagesRoute: CampaignsIdImagesRoute,
+  CampaignsIdTimelineRoute: CampaignsIdTimelineRoute,
   CampaignsIdIndexRoute: CampaignsIdIndexRoute,
   CampaignsIdSessionsSidRoute: CampaignsIdSessionsSidRoute,
   CampaignsIdCharactersIndexRoute: CampaignsIdCharactersIndexRoute,
