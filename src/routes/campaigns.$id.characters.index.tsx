@@ -162,8 +162,10 @@ function RosterPage() {
               </Button>
             </DialogFooter>
           </DialogContent>
-        </Dialog>
+          </Dialog>
+        </div>
       </div>
+
 
       <section className="mb-12">
         <SectionHeading>Player Characters</SectionHeading>
