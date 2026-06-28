@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, Sparkles } from "lucide-react";
 
 import { CharacterAvatar } from "@/components/character-avatar";
 import { SectionHeading } from "@/components/campaign-sidebar";
