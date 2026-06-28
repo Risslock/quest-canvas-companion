@@ -5,8 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Earthdawn Companion — "Enchanted archive" design system.
- * Parchment / ink base with gold + crimson arcane accents.
+ * StoryWeaver — "Arcane but clean" design system.
+ * Deep navy / slate base, aged-parchment reading surfaces,
+ * gold + ember arcane accents.
  * Fonts: Cinzel (display) + EB Garamond (body), loaded via <link> in __root.tsx.
  */
 
