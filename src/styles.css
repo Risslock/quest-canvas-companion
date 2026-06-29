@@ -5,8 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Earthdawn Companion — "Enchanted archive" design system.
- * Parchment / ink base with gold + crimson arcane accents.
+ * StoryWeaver — "Arcane but clean" design system.
+ * Deep navy / slate base, aged-parchment reading surfaces,
+ * gold + ember arcane accents.
  * Fonts: Cinzel (display) + EB Garamond (body), loaded via <link> in __root.tsx.
  */
 
@@ -44,14 +45,18 @@
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
 
-  /* Earthdawn semantic accents */
+  /* StoryWeaver semantic accents */
   --color-parchment: var(--parchment);
+  --color-parchment-foreground: var(--parchment-foreground);
   --color-vellum: var(--vellum);
   --color-ink: var(--ink);
   --color-gold: var(--gold);
   --color-gold-foreground: var(--gold-foreground);
-  --color-crimson: var(--crimson);
-  --color-crimson-foreground: var(--crimson-foreground);
+  --color-ember: var(--ember);
+  --color-ember-foreground: var(--ember-foreground);
+  /* Back-compat alias: crimson maps to ember */
+  --color-crimson: var(--ember);
+  --color-crimson-foreground: var(--ember-foreground);
 
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
@@ -67,94 +72,104 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --shadow-arcane: 0 18px 40px -20px color-mix(in oklab, var(--crimson) 35%, transparent);
+  --shadow-arcane: 0 24px 60px -28px color-mix(in oklab, var(--ember) 45%, transparent);
+  --shadow-glow-gold: 0 0 28px -2px color-mix(in oklab, var(--gold) 45%, transparent);
 }
 
-:root {
-  --radius: 0.5rem;
 
-  /* Raw palette */
-  --parchment: oklch(0.985 0.009 95);
-  --vellum: oklch(0.957 0.013 92);
-  --ink: oklch(0.235 0.006 60);
-  --gold: oklch(0.56 0.085 75);
-  --gold-foreground: oklch(0.985 0.009 95);
-  --crimson: oklch(0.42 0.13 28);
-  --crimson-foreground: oklch(0.985 0.009 95);
+:root {
+  --radius: 0.625rem;
+
+  /* Raw palette — dark arcane: deep navy/slate, parchment, gold + ember */
+  --parchment: oklch(0.92 0.025 88);
+  --parchment-foreground: oklch(0.27 0.025 65);
+  --vellum: oklch(0.225 0.03 262);
+  --ink: oklch(0.93 0.015 90);
+  --gold: oklch(0.81 0.12 86);
+  --gold-foreground: oklch(0.17 0.03 264);
+  --ember: oklch(0.64 0.18 45);
+  --ember-foreground: oklch(0.98 0.012 90);
 
   /* Semantic mappings */
-  --background: var(--parchment);
+  --background: oklch(0.16 0.028 264);
   --foreground: var(--ink);
-  --card: var(--vellum);
+  --card: oklch(0.225 0.03 262);
   --card-foreground: var(--ink);
-  --popover: var(--parchment);
+  --popover: oklch(0.225 0.03 262);
   --popover-foreground: var(--ink);
-  --primary: var(--crimson);
-  --primary-foreground: var(--crimson-foreground);
-  --secondary: var(--vellum);
+  --primary: var(--gold);
+  --primary-foreground: var(--gold-foreground);
+  --secondary: oklch(0.275 0.03 260);
   --secondary-foreground: var(--ink);
-  --muted: oklch(0.93 0.014 92);
-  --muted-foreground: oklch(0.5 0.02 70);
-  --accent: var(--gold);
-  --accent-foreground: var(--gold-foreground);
-  --destructive: oklch(0.51 0.17 27);
-  --destructive-foreground: oklch(0.985 0.009 95);
-  --border: oklch(0.86 0.03 82);
-  --input: oklch(0.86 0.03 82);
+  --muted: oklch(0.275 0.03 260);
+  --muted-foreground: oklch(0.72 0.022 90);
+  --accent: var(--ember);
+  --accent-foreground: var(--ember-foreground);
+  --destructive: oklch(0.55 0.19 28);
+  --destructive-foreground: oklch(0.98 0.012 90);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 12%);
   --ring: var(--gold);
 
-  --chart-1: var(--crimson);
-  --chart-2: var(--gold);
-  --chart-3: oklch(0.45 0.07 200);
-  --chart-4: oklch(0.6 0.12 140);
-  --chart-5: oklch(0.5 0.15 300);
+  --chart-1: var(--gold);
+  --chart-2: var(--ember);
+  --chart-3: oklch(0.6 0.11 220);
+  --chart-4: oklch(0.65 0.13 150);
+  --chart-5: oklch(0.6 0.15 305);
 
-  --sidebar: var(--vellum);
+  --sidebar: oklch(0.19 0.03 264);
   --sidebar-foreground: var(--ink);
-  --sidebar-primary: var(--crimson);
-  --sidebar-primary-foreground: var(--crimson-foreground);
-  --sidebar-accent: oklch(0.93 0.014 92);
+  --sidebar-primary: var(--gold);
+  --sidebar-primary-foreground: var(--gold-foreground);
+  --sidebar-accent: oklch(0.275 0.03 260);
   --sidebar-accent-foreground: var(--ink);
-  --sidebar-border: oklch(0.86 0.03 82);
+  --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: var(--gold);
 }
 
 .dark {
-  --parchment: oklch(0.985 0.009 95);
-  --vellum: oklch(0.3 0.012 60);
-  --ink: oklch(0.95 0.008 90);
-  --gold: oklch(0.7 0.1 80);
-  --gold-foreground: oklch(0.22 0.006 60);
-  --crimson: oklch(0.55 0.16 28);
-  --crimson-foreground: oklch(0.985 0.009 95);
+  --parchment: oklch(0.92 0.025 88);
+  --parchment-foreground: oklch(0.27 0.025 65);
+  --vellum: oklch(0.225 0.03 262);
+  --ink: oklch(0.93 0.015 90);
+  --gold: oklch(0.81 0.12 86);
+  --gold-foreground: oklch(0.17 0.03 264);
+  --ember: oklch(0.64 0.18 45);
+  --ember-foreground: oklch(0.98 0.012 90);
 
-  --background: oklch(0.22 0.008 60);
-  --foreground: oklch(0.95 0.008 90);
-  --card: oklch(0.27 0.01 60);
-  --card-foreground: oklch(0.95 0.008 90);
-  --popover: oklch(0.27 0.01 60);
-  --popover-foreground: oklch(0.95 0.008 90);
-  --primary: var(--crimson);
-  --primary-foreground: oklch(0.985 0.009 95);
-  --secondary: oklch(0.3 0.012 60);
-  --secondary-foreground: oklch(0.95 0.008 90);
-  --muted: oklch(0.3 0.012 60);
-  --muted-foreground: oklch(0.7 0.02 80);
-  --accent: var(--gold);
-  --accent-foreground: oklch(0.22 0.006 60);
-  --destructive: oklch(0.55 0.16 28);
-  --destructive-foreground: oklch(0.985 0.009 95);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 15%);
+  --background: oklch(0.16 0.028 264);
+  --foreground: var(--ink);
+  --card: oklch(0.225 0.03 262);
+  --card-foreground: var(--ink);
+  --popover: oklch(0.225 0.03 262);
+  --popover-foreground: var(--ink);
+  --primary: var(--gold);
+  --primary-foreground: var(--gold-foreground);
+  --secondary: oklch(0.275 0.03 260);
+  --secondary-foreground: var(--ink);
+  --muted: oklch(0.275 0.03 260);
+  --muted-foreground: oklch(0.72 0.022 90);
+  --accent: var(--ember);
+  --accent-foreground: var(--ember-foreground);
+  --destructive: oklch(0.55 0.19 28);
+  --destructive-foreground: oklch(0.98 0.012 90);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 12%);
   --ring: var(--gold);
 
-  --sidebar: oklch(0.25 0.01 60);
-  --sidebar-foreground: oklch(0.95 0.008 90);
-  --sidebar-primary: var(--crimson);
-  --sidebar-primary-foreground: oklch(0.985 0.009 95);
-  --sidebar-accent: oklch(0.3 0.012 60);
-  --sidebar-accent-foreground: oklch(0.95 0.008 90);
-  --sidebar-border: oklch(1 0 0 / 12%);
+  --chart-1: var(--gold);
+  --chart-2: var(--ember);
+  --chart-3: oklch(0.6 0.11 220);
+  --chart-4: oklch(0.65 0.13 150);
+  --chart-5: oklch(0.6 0.15 305);
+
+  --sidebar: oklch(0.19 0.03 264);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--gold);
+  --sidebar-primary-foreground: var(--gold-foreground);
+  --sidebar-accent: oklch(0.275 0.03 260);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: var(--gold);
 }
 
@@ -195,4 +210,36 @@
 
 @utility animate-arcane-pulse {
   animation: arcane-pulse 2.4s ease-in-out infinite;
+}
+
+/* Aged-parchment reading surface for journal / timeline panels */
+@utility surface-parchment {
+  background-color: var(--parchment);
+  color: var(--parchment-foreground);
+  background-image:
+    radial-gradient(
+      circle at 20% 15%,
+      color-mix(in oklab, var(--ember) 7%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 85% 90%,
+      color-mix(in oklab, var(--gold) 9%, transparent),
+      transparent 55%
+    );
+}
+
+@utility glow-gold {
+  box-shadow: var(--shadow-glow-gold);
+}
+
+@utility text-gradient-arcane {
+  background: linear-gradient(
+    100deg,
+    var(--gold),
+    color-mix(in oklab, var(--gold) 55%, var(--ember))
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }

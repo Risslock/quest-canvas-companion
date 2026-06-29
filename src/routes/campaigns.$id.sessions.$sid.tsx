@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { ArrowLeft, ScrollText, Sparkles } from "lucide-react";
+import { useMemo, useState } from "react";
+import { ArrowLeft, ScrollText, Sparkles, Wand2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -24,15 +24,45 @@ const statusLabel: Record<SessionStatus, string> = {
 function SessionDetail() {
   const { id, sid } = Route.useParams();
   const state = useAppState();
-  const { data, summary } = useServices();
+  const { data, summary, planner } = useServices();
 
   const session = state.sessions.find((s) => s.id === sid);
   const [summarizing, setSummarizing] = useState(false);
   const [streamingSummary, setStreamingSummary] = useState("");
+  const [planning, setPlanning] = useState(false);
+
+  const campaign = useMemo(
+    () => state.campaigns.find((c) => c.id === id),
+    [state.campaigns, id],
+  );
 
   if (!session) {
     return <div className="p-8 text-muted-foreground">Session not found.</div>;
   }
+
+  const generateOutline = async () => {
+    if (planning || !campaign) return;
+    setPlanning(true);
+    try {
+      let acc = "";
+      const input = {
+        campaign,
+        sessions: state.sessions.filter((s) => s.campaignId === id),
+        characters: state.characters.filter((c) => c.campaignId === id),
+        timeline: state.timeline.filter((e) => e.campaignId === id),
+      };
+      for await (const token of planner.streamOutline(input)) {
+        acc += token;
+        data.updateSession(sid, { plan: acc });
+      }
+      toast.success("Session outline drafted.");
+    } catch {
+      toast.error("The planner faltered. Try again.");
+    } finally {
+      setPlanning(false);
+    }
+  };
+
 
   const generateSummary = async () => {
     if (summarizing) return;
@@ -105,14 +135,26 @@ function SessionDetail() {
       <div className="grid grid-cols-12 gap-8">
         {/* Planning */}
         <section className="col-span-12 lg:col-span-6">
-          <h3 className="mb-3 font-display text-lg italic text-primary underline decoration-accent/30">
-            Planning
-          </h3>
+          <div className="mb-3 flex items-center justify-between">
+            <h3 className="font-display text-lg italic text-primary underline decoration-accent/30">
+              Planning
+            </h3>
+            <Button
+              onClick={generateOutline}
+              disabled={planning}
+              variant="outline"
+              size="sm"
+              className="border-accent/40 font-display text-[10px] tracking-widest text-accent hover:bg-accent hover:text-accent-foreground"
+            >
+              <Wand2 className="size-3.5" />
+              {planning ? "PLANNING…" : "PLAN WITH AI"}
+            </Button>
+          </div>
           <Textarea
             value={session.plan}
             onChange={(e) => data.updateSession(sid, { plan: e.target.value })}
-            rows={8}
-            placeholder="Outline scenes, encounters, hooks, and the beats you want to hit…"
+            rows={12}
+            placeholder="Outline scenes, encounters, hooks, and the beats you want to hit… or let the AI draft one from your campaign history."
             className="resize-none bg-card"
           />
         </section>

@@ -1,6 +1,19 @@
-import type { ChatProvider, ImageProvider, SummaryProvider } from "./interfaces";
+import type {
+  ChatProvider,
+  ImageProvider,
+  KnowledgeProvider,
+  PlannerProvider,
+  RuleCitation,
+  SummaryProvider,
+} from "./interfaces";
 import { mockImagePool } from "./seed";
-import type { Character, ChatMessage, ImageKind, Session } from "./types";
+import type {
+  Character,
+  ChatMessage,
+  ImageKind,
+  KnowledgeSource,
+  Session,
+} from "./types";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -110,3 +123,104 @@ export const mockImageProvider: ImageProvider = {
     return { url };
   },
 };
+
+const STOPWORDS = new Set([
+  "the", "a", "an", "is", "are", "do", "does", "how", "what", "when", "for",
+  "to", "of", "in", "on", "and", "or", "with", "my", "your", "while", "it",
+  "that", "this", "i", "you", "can", "if", "be", "as", "at", "by", "from",
+]);
+
+function keywords(text: string): string[] {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter((w) => w.length > 2 && !STOPWORDS.has(w));
+}
+
+function scoreSource(question: string, source: KnowledgeSource): number {
+  const qk = keywords(question);
+  const hay = `${source.title} ${source.excerpt}`.toLowerCase();
+  return qk.reduce((n, k) => (hay.includes(k) ? n + 1 : n), 0);
+}
+
+/**
+ * Mock RAG. Ranks visible sources by keyword overlap, grounds an answer in
+ * the best matches, and returns citations plus self-eval scores. A real
+ * provider (vector DB + LLM) implements the same KnowledgeProvider contract.
+ */
+export const mockKnowledgeProvider: KnowledgeProvider = {
+  async ask(question, sources) {
+    await sleep(700 + Math.random() * 600);
+
+    const ranked = sources
+      .map((s) => ({ s, score: scoreSource(question, s) }))
+      .sort((a, b) => b.score - a.score);
+
+    const hits = ranked.filter((r) => r.score > 0).slice(0, 3);
+    const chosen = (hits.length ? hits : ranked.slice(0, 1)).map((r) => r.s);
+
+    const citations: RuleCitation[] = chosen.map((s) => ({
+      sourceId: s.id,
+      title: s.title,
+      excerpt: s.excerpt,
+    }));
+
+    const grounded = hits.length > 0;
+    const answer = grounded
+      ? `Based on the sourcebooks: ${chosen[0].excerpt}${
+          chosen[1] ? `\n\nRelated: ${chosen[1].excerpt}` : ""
+        }`
+      : "I couldn't find a grounded answer in the available sources. Try rephrasing, or upload the relevant rulebook section so I can cite it directly.";
+
+    const base = grounded ? 80 : 45;
+    const jitter = () => Math.min(99, base + Math.floor(Math.random() * 18));
+
+    return {
+      answer,
+      citations,
+      scores: { faithfulness: jitter(), relevance: jitter(), accuracy: jitter() },
+    };
+  },
+};
+
+/**
+ * Mock GM planner. Reads open threads (planned sessions), recent timeline
+ * beats, and available NPCs, then streams a session outline.
+ */
+export const mockPlannerProvider: PlannerProvider = {
+  async *streamOutline({ campaign, sessions, characters, timeline }) {
+    await sleep(500);
+    const next = sessions.find((s) => s.status === "planned");
+    const npcs = characters.filter((c) => c.kind === "npc");
+    const recent = [...timeline].sort((a, b) => b.occurredAt - a.occurredAt).slice(0, 3);
+
+    const outline = [
+      `# Session Outline — ${next?.title ?? "Next Session"}`,
+      ``,
+      `**Campaign:** ${campaign.name}`,
+      ``,
+      `## Where we left off`,
+      ...recent.map((e) => `- ${e.title}: ${e.body}`),
+      ``,
+      `## Opening scene`,
+      next?.plan
+        ? next.plan
+        : "Re-establish tension from the last beat and give each player a moment to act in character.",
+      ``,
+      `## NPCs in play`,
+      ...npcs.map((n) => `- **${n.name}** (${n.disposition}) — ${n.tone}`),
+      ``,
+      `## Open threads to push`,
+      `- Resolve the moral choice the party deferred.`,
+      `- Pay off the loyalty tension brewing in the party.`,
+      `- Let the kaer react to what the players did last time.`,
+      ``,
+      `## Possible climax`,
+      "Force a confrontation that makes the players choose between their goals and their safety — and remember it next session.",
+    ].join("\n");
+
+    yield* streamText(outline, 8);
+  },
+};
+

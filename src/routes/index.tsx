@@ -1,19 +1,34 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BookOpen, MessageCircle, ScrollText, Wand2 } from "lucide-react";
+import {
+  BookOpen,
+  Image as ImageIcon,
+  MessageCircle,
+  ScrollText,
+  Sparkles,
+  UserPlus,
+  Wand2,
+} from "lucide-react";
 
 import { Brand } from "@/components/brand";
 import { Button } from "@/components/ui/button";
-import sceneAstral from "@/assets/scene-astral.jpg";
+import heroArt from "@/assets/scene-storyweaver-hero.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Barsaive Chronicle — Earthdawn Roleplaying Companion" },
+      { title: "StoryWeaver — AI Companion for Tabletop RPG Campaigns" },
       {
         name: "description",
         content:
-          "AI-powered character digital twins, art generation, and session planning for Earthdawn 4e tabletop campaigns.",
+          "StoryWeaver remembers every story beat, voices every NPC, generates portraits and scene art, and answers rules questions — so your table can focus on the adventure.",
       },
+      { property: "og:title", content: "StoryWeaver — AI Tabletop RPG Companion" },
+      {
+        property: "og:description",
+        content:
+          "Living digital twins, an automatic campaign timeline, cited rules Q&A, and AI session planning.",
+      },
+      { property: "og:image", content: heroArt },
     ],
   }),
   component: Landing,
@@ -23,73 +38,98 @@ const features = [
   {
     icon: MessageCircle,
     title: "Digital Twins",
-    body: "Give every character and NPC a voice. Threaded, in-character chats powered by AI help players and GMs breathe life into the table.",
-  },
-  {
-    icon: Wand2,
-    title: "Forge of Visions",
-    body: "Conjure portraits, NPCs, and scenes from a prompt. Build a living gallery of art for your campaign.",
+    body: "Every character and NPC becomes a persistent AI agent that knows its backstory and remembers the campaign — responding in a consistent voice, session after session.",
   },
   {
     icon: ScrollText,
-    title: "Session Chronicles",
-    body: "Plan sessions, take live notes, and let the chronicle write itself with one-click AI summaries.",
+    title: "Living Story History",
+    body: "A searchable timeline built automatically from your sessions. GMs see everything; players see what their character would know.",
+  },
+  {
+    icon: BookOpen,
+    title: "Game Knowledge Q&A",
+    body: "Ask rules questions in plain language and get grounded, cited answers pulled from the actual sourcebooks — never hallucinated. GM-only lore stays GM-only.",
+  },
+  {
+    icon: ImageIcon,
+    title: "Portraits & Scene Art",
+    body: "Turn a description into a custom portrait, or conjure an illustration mid-session. The world goes from abstract to vivid.",
+  },
+  {
+    icon: UserPlus,
+    title: "Guided Character Creation",
+    body: "A step-by-step builder that captures identity, talents, relationships, and goals — structured so the digital twin is genuinely smarter.",
+  },
+  {
+    icon: Wand2,
+    title: "Session Planning",
+    body: "A GM agent reads the campaign history, knows the open threads and available NPCs, and drafts a full session outline in minutes.",
   },
 ];
 
 function Landing() {
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-accent/30">
-      <header className="flex items-center justify-between px-6 py-5 md:px-12">
+      <header className="relative z-10 flex items-center justify-between px-6 py-5 md:px-12">
         <Brand />
         <Button asChild variant="outline">
-          <Link to="/auth">Enter the Chronicle</Link>
+          <Link to="/auth">Enter StoryWeaver</Link>
         </Button>
       </header>
 
       <section className="relative overflow-hidden">
         <div
-          className="pointer-events-none absolute inset-0 opacity-20"
+          className="pointer-events-none absolute inset-0 opacity-40"
           style={{
-            backgroundImage: `url(${sceneAstral})`,
+            backgroundImage: `url(${heroArt})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
-            maskImage: "linear-gradient(to bottom, black, transparent)",
-            WebkitMaskImage: "linear-gradient(to bottom, black, transparent)",
+            maskImage: "linear-gradient(to bottom, black 30%, transparent)",
+            WebkitMaskImage: "linear-gradient(to bottom, black 30%, transparent)",
           }}
         />
-        <div className="relative mx-auto max-w-4xl px-6 py-20 text-center md:py-28">
-          <p className="font-display text-xs uppercase tracking-[0.4em] text-accent">
-            For Earthdawn 4th Edition
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/20 via-background/40 to-background" />
+        <div className="relative mx-auto max-w-4xl px-6 py-24 text-center md:py-32">
+          <p className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-background/40 px-4 py-1.5 font-display text-xs uppercase tracking-[0.3em] text-accent backdrop-blur">
+            <Sparkles className="size-3" />
+            The intelligent tabletop companion
           </p>
-          <h1 className="mt-5 font-display text-4xl font-bold leading-tight text-primary md:text-6xl">
-            Your campaign,
+          <h1 className="mt-6 font-display text-5xl font-bold leading-tight md:text-7xl">
+            <span className="text-gradient-arcane">Every detail</span>
             <br />
-            given life.
+            remembered.
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg italic text-foreground/70">
-            A roleplaying companion for Barsaive. Speak with your characters, conjure the
-            horrors of the Scourge, and let your sessions become legend.
+          <p className="mx-auto mt-6 max-w-2xl text-lg italic text-foreground/75">
+            StoryWeaver is the backstage crew for your campaign — tireless, consistent, and
+            invisibly excellent. It remembers every beat, voices every character, and lets the
+            adventure take center stage.
           </p>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
-            <Button asChild size="lg" className="font-display tracking-widest">
+            <Button asChild size="lg" className="font-display tracking-widest glow-gold">
               <Link to="/campaigns">Open Campaigns</Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="font-display tracking-widest">
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="font-display tracking-widest"
+            >
               <Link to="/auth">Sign In</Link>
             </Button>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-6 pb-24">
+      <section className="mx-auto max-w-6xl px-6 pb-24">
         <div className="grid gap-6 md:grid-cols-3">
           {features.map(({ icon: Icon, title, body }) => (
             <div
               key={title}
-              className="rounded-lg border border-accent/20 bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
+              className="group rounded-xl border border-accent/15 bg-card/70 p-6 backdrop-blur transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-arcane"
             >
-              <Icon className="size-7 text-accent" />
+              <span className="grid size-11 place-items-center rounded-lg border border-accent/25 bg-accent/10 text-accent transition-colors group-hover:bg-accent/20">
+                <Icon className="size-5" />
+              </span>
               <h2 className="mt-4 font-display text-xl">{title}</h2>
               <p className="mt-2 text-sm leading-relaxed text-foreground/70">{body}</p>
             </div>

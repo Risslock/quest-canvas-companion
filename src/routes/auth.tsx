@@ -11,7 +11,7 @@ import { useAuth, type UserRole } from "@/services";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
-    meta: [{ title: "Sign In — Barsaive Chronicle" }],
+    meta: [{ title: "Sign In — StoryWeaver" }],
   }),
   component: AuthPage,
 });
@@ -21,7 +21,7 @@ function AuthPage() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("gm@barsaive.dev");
+  const [email, setEmail] = useState("gm@storyweaver.dev");
   const [password, setPassword] = useState("password");
   const [role, setRole] = useState<UserRole>("gm");
   const [busy, setBusy] = useState(false);

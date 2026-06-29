@@ -19,7 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAppState, useAuth, useServices } from "@/services";
 
 export const Route = createFileRoute("/campaigns/")({
-  head: () => ({ meta: [{ title: "Campaigns — Barsaive Chronicle" }] }),
+  head: () => ({ meta: [{ title: "Campaigns — StoryWeaver" }] }),
   component: CampaignsPage,
 });
 

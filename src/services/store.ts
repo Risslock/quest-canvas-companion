@@ -6,11 +6,14 @@ import type {
   Character,
   ChatMessage,
   ChatThread,
+  EvalRecord,
   GeneratedImage,
+  KnowledgeSource,
   Session,
+  TimelineEvent,
 } from "./types";
 
-const STORAGE_KEY = "barsaive-chronicle.state.v1";
+const STORAGE_KEY = "storyweaver.state.v1";
 
 const uid = () =>
   typeof crypto !== "undefined" && "randomUUID" in crypto
@@ -144,6 +147,29 @@ class MockStore implements DataRepository {
     this.setState({ ...this.state, images: [image, ...this.state.images] });
     return image;
   }
+
+  // ---- timeline ----
+  addTimelineEvent(input: Omit<TimelineEvent, "id" | "createdAt">): TimelineEvent {
+    const event: TimelineEvent = { id: uid(), createdAt: Date.now(), ...input };
+    this.setState({ ...this.state, timeline: [...this.state.timeline, event] });
+    return event;
+  }
+
+  // ---- knowledge ----
+  addKnowledge(input: Omit<KnowledgeSource, "id">): KnowledgeSource {
+    const source: KnowledgeSource = { id: uid(), ...input };
+    this.setState({ ...this.state, knowledge: [...this.state.knowledge, source] });
+    return source;
+  }
+
+  // ---- eval records ----
+  addEval(input: Omit<EvalRecord, "id" | "createdAt">): EvalRecord {
+    const record: EvalRecord = { id: uid(), createdAt: Date.now(), ...input };
+    this.setState({ ...this.state, evals: [record, ...this.state.evals] });
+    return record;
+  }
+
+
 
   reset() {
     if (typeof window !== "undefined") window.localStorage.removeItem(STORAGE_KEY);

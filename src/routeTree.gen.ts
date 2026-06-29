@@ -14,10 +14,14 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CampaignsIndexRouteImport } from './routes/campaigns.index'
 import { Route as CampaignsIdRouteImport } from './routes/campaigns.$id'
 import { Route as CampaignsIdIndexRouteImport } from './routes/campaigns.$id.index'
+import { Route as CampaignsIdTimelineRouteImport } from './routes/campaigns.$id.timeline'
+import { Route as CampaignsIdRulesRouteImport } from './routes/campaigns.$id.rules'
 import { Route as CampaignsIdImagesRouteImport } from './routes/campaigns.$id.images'
+import { Route as CampaignsIdEvalRouteImport } from './routes/campaigns.$id.eval'
 import { Route as CampaignsIdSessionsIndexRouteImport } from './routes/campaigns.$id.sessions.index'
 import { Route as CampaignsIdCharactersIndexRouteImport } from './routes/campaigns.$id.characters.index'
 import { Route as CampaignsIdSessionsSidRouteImport } from './routes/campaigns.$id.sessions.$sid'
+import { Route as CampaignsIdCharactersNewRouteImport } from './routes/campaigns.$id.characters.new'
 import { Route as CampaignsIdCharactersCidIndexRouteImport } from './routes/campaigns.$id.characters.$cid.index'
 import { Route as CampaignsIdCharactersCidThreadIdRouteImport } from './routes/campaigns.$id.characters.$cid.$threadId'
 
@@ -46,9 +50,24 @@ const CampaignsIdIndexRoute = CampaignsIdIndexRouteImport.update({
   path: '/',
   getParentRoute: () => CampaignsIdRoute,
 } as any)
+const CampaignsIdTimelineRoute = CampaignsIdTimelineRouteImport.update({
+  id: '/timeline',
+  path: '/timeline',
+  getParentRoute: () => CampaignsIdRoute,
+} as any)
+const CampaignsIdRulesRoute = CampaignsIdRulesRouteImport.update({
+  id: '/rules',
+  path: '/rules',
+  getParentRoute: () => CampaignsIdRoute,
+} as any)
 const CampaignsIdImagesRoute = CampaignsIdImagesRouteImport.update({
   id: '/images',
   path: '/images',
+  getParentRoute: () => CampaignsIdRoute,
+} as any)
+const CampaignsIdEvalRoute = CampaignsIdEvalRouteImport.update({
+  id: '/eval',
+  path: '/eval',
   getParentRoute: () => CampaignsIdRoute,
 } as any)
 const CampaignsIdSessionsIndexRoute =
@@ -68,6 +87,12 @@ const CampaignsIdSessionsSidRoute = CampaignsIdSessionsSidRouteImport.update({
   path: '/sessions/$sid',
   getParentRoute: () => CampaignsIdRoute,
 } as any)
+const CampaignsIdCharactersNewRoute =
+  CampaignsIdCharactersNewRouteImport.update({
+    id: '/characters/new',
+    path: '/characters/new',
+    getParentRoute: () => CampaignsIdRoute,
+  } as any)
 const CampaignsIdCharactersCidIndexRoute =
   CampaignsIdCharactersCidIndexRouteImport.update({
     id: '/characters/$cid/',
@@ -86,8 +111,12 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/campaigns/$id': typeof CampaignsIdRouteWithChildren
   '/campaigns/': typeof CampaignsIndexRoute
+  '/campaigns/$id/eval': typeof CampaignsIdEvalRoute
   '/campaigns/$id/images': typeof CampaignsIdImagesRoute
+  '/campaigns/$id/rules': typeof CampaignsIdRulesRoute
+  '/campaigns/$id/timeline': typeof CampaignsIdTimelineRoute
   '/campaigns/$id/': typeof CampaignsIdIndexRoute
+  '/campaigns/$id/characters/new': typeof CampaignsIdCharactersNewRoute
   '/campaigns/$id/sessions/$sid': typeof CampaignsIdSessionsSidRoute
   '/campaigns/$id/characters/': typeof CampaignsIdCharactersIndexRoute
   '/campaigns/$id/sessions/': typeof CampaignsIdSessionsIndexRoute
@@ -98,8 +127,12 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/campaigns': typeof CampaignsIndexRoute
+  '/campaigns/$id/eval': typeof CampaignsIdEvalRoute
   '/campaigns/$id/images': typeof CampaignsIdImagesRoute
+  '/campaigns/$id/rules': typeof CampaignsIdRulesRoute
+  '/campaigns/$id/timeline': typeof CampaignsIdTimelineRoute
   '/campaigns/$id': typeof CampaignsIdIndexRoute
+  '/campaigns/$id/characters/new': typeof CampaignsIdCharactersNewRoute
   '/campaigns/$id/sessions/$sid': typeof CampaignsIdSessionsSidRoute
   '/campaigns/$id/characters': typeof CampaignsIdCharactersIndexRoute
   '/campaigns/$id/sessions': typeof CampaignsIdSessionsIndexRoute
@@ -112,8 +145,12 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/campaigns/$id': typeof CampaignsIdRouteWithChildren
   '/campaigns/': typeof CampaignsIndexRoute
+  '/campaigns/$id/eval': typeof CampaignsIdEvalRoute
   '/campaigns/$id/images': typeof CampaignsIdImagesRoute
+  '/campaigns/$id/rules': typeof CampaignsIdRulesRoute
+  '/campaigns/$id/timeline': typeof CampaignsIdTimelineRoute
   '/campaigns/$id/': typeof CampaignsIdIndexRoute
+  '/campaigns/$id/characters/new': typeof CampaignsIdCharactersNewRoute
   '/campaigns/$id/sessions/$sid': typeof CampaignsIdSessionsSidRoute
   '/campaigns/$id/characters/': typeof CampaignsIdCharactersIndexRoute
   '/campaigns/$id/sessions/': typeof CampaignsIdSessionsIndexRoute
@@ -127,8 +164,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/campaigns/$id'
     | '/campaigns/'
+    | '/campaigns/$id/eval'
     | '/campaigns/$id/images'
+    | '/campaigns/$id/rules'
+    | '/campaigns/$id/timeline'
     | '/campaigns/$id/'
+    | '/campaigns/$id/characters/new'
     | '/campaigns/$id/sessions/$sid'
     | '/campaigns/$id/characters/'
     | '/campaigns/$id/sessions/'
@@ -139,8 +180,12 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/campaigns'
+    | '/campaigns/$id/eval'
     | '/campaigns/$id/images'
+    | '/campaigns/$id/rules'
+    | '/campaigns/$id/timeline'
     | '/campaigns/$id'
+    | '/campaigns/$id/characters/new'
     | '/campaigns/$id/sessions/$sid'
     | '/campaigns/$id/characters'
     | '/campaigns/$id/sessions'
@@ -152,8 +197,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/campaigns/$id'
     | '/campaigns/'
+    | '/campaigns/$id/eval'
     | '/campaigns/$id/images'
+    | '/campaigns/$id/rules'
+    | '/campaigns/$id/timeline'
     | '/campaigns/$id/'
+    | '/campaigns/$id/characters/new'
     | '/campaigns/$id/sessions/$sid'
     | '/campaigns/$id/characters/'
     | '/campaigns/$id/sessions/'
@@ -205,11 +254,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsIdIndexRouteImport
       parentRoute: typeof CampaignsIdRoute
     }
+    '/campaigns/$id/timeline': {
+      id: '/campaigns/$id/timeline'
+      path: '/timeline'
+      fullPath: '/campaigns/$id/timeline'
+      preLoaderRoute: typeof CampaignsIdTimelineRouteImport
+      parentRoute: typeof CampaignsIdRoute
+    }
+    '/campaigns/$id/rules': {
+      id: '/campaigns/$id/rules'
+      path: '/rules'
+      fullPath: '/campaigns/$id/rules'
+      preLoaderRoute: typeof CampaignsIdRulesRouteImport
+      parentRoute: typeof CampaignsIdRoute
+    }
     '/campaigns/$id/images': {
       id: '/campaigns/$id/images'
       path: '/images'
       fullPath: '/campaigns/$id/images'
       preLoaderRoute: typeof CampaignsIdImagesRouteImport
+      parentRoute: typeof CampaignsIdRoute
+    }
+    '/campaigns/$id/eval': {
+      id: '/campaigns/$id/eval'
+      path: '/eval'
+      fullPath: '/campaigns/$id/eval'
+      preLoaderRoute: typeof CampaignsIdEvalRouteImport
       parentRoute: typeof CampaignsIdRoute
     }
     '/campaigns/$id/sessions/': {
@@ -233,6 +303,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsIdSessionsSidRouteImport
       parentRoute: typeof CampaignsIdRoute
     }
+    '/campaigns/$id/characters/new': {
+      id: '/campaigns/$id/characters/new'
+      path: '/characters/new'
+      fullPath: '/campaigns/$id/characters/new'
+      preLoaderRoute: typeof CampaignsIdCharactersNewRouteImport
+      parentRoute: typeof CampaignsIdRoute
+    }
     '/campaigns/$id/characters/$cid/': {
       id: '/campaigns/$id/characters/$cid/'
       path: '/characters/$cid'
@@ -251,8 +328,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface CampaignsIdRouteChildren {
+  CampaignsIdEvalRoute: typeof CampaignsIdEvalRoute
   CampaignsIdImagesRoute: typeof CampaignsIdImagesRoute
+  CampaignsIdRulesRoute: typeof CampaignsIdRulesRoute
+  CampaignsIdTimelineRoute: typeof CampaignsIdTimelineRoute
   CampaignsIdIndexRoute: typeof CampaignsIdIndexRoute
+  CampaignsIdCharactersNewRoute: typeof CampaignsIdCharactersNewRoute
   CampaignsIdSessionsSidRoute: typeof CampaignsIdSessionsSidRoute
   CampaignsIdCharactersIndexRoute: typeof CampaignsIdCharactersIndexRoute
   CampaignsIdSessionsIndexRoute: typeof CampaignsIdSessionsIndexRoute
@@ -261,8 +342,12 @@ interface CampaignsIdRouteChildren {
 }
 
 const CampaignsIdRouteChildren: CampaignsIdRouteChildren = {
+  CampaignsIdEvalRoute: CampaignsIdEvalRoute,
   CampaignsIdImagesRoute: CampaignsIdImagesRoute,
+  CampaignsIdRulesRoute: CampaignsIdRulesRoute,
+  CampaignsIdTimelineRoute: CampaignsIdTimelineRoute,
   CampaignsIdIndexRoute: CampaignsIdIndexRoute,
+  CampaignsIdCharactersNewRoute: CampaignsIdCharactersNewRoute,
   CampaignsIdSessionsSidRoute: CampaignsIdSessionsSidRoute,
   CampaignsIdCharactersIndexRoute: CampaignsIdCharactersIndexRoute,
   CampaignsIdSessionsIndexRoute: CampaignsIdSessionsIndexRoute,
@@ -283,13 +368,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
