@@ -78,7 +78,7 @@ function TimelinePage() {
             onClick={() => setCharacterFilter(c.id)}
             className="font-display text-[10px] tracking-widest"
           >
-            {c.name.split(" ")[0].toUpperCase()}
+            {c.name.replace(/^The\s+/i, "").split(" ")[0].toUpperCase()}
           </Button>
         ))}
       </div>
