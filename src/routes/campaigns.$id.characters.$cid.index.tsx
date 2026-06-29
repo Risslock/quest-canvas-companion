@@ -17,6 +17,16 @@ import { Label } from "@/components/ui/label";
 import { useAppState, useServices } from "@/services";
 
 export const Route = createFileRoute("/campaigns/$id/characters/$cid/")({
+  head: () => ({
+    meta: [
+      { title: "Character — StoryWeaver" },
+      {
+        name: "description",
+        content:
+          "Character profile, sheet, and digital twin conversations — chat in-character with a persistent AI that remembers the campaign.",
+      },
+    ],
+  }),
   component: CharacterProfile,
 });
 

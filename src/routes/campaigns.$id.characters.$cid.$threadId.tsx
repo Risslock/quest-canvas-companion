@@ -37,6 +37,16 @@ import type { Character } from "@/services";
 import type { ChatStatus } from "ai";
 
 export const Route = createFileRoute("/campaigns/$id/characters/$cid/$threadId")({
+  head: () => ({
+    meta: [
+      { title: "Digital Twin Chat — StoryWeaver" },
+      {
+        name: "description",
+        content:
+          "Immersive in-character conversation with a digital twin that remembers your campaign, with role-aware context for GMs and players.",
+      },
+    ],
+  }),
   component: ChatThread,
 });
 

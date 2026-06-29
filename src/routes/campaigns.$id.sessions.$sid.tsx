@@ -11,6 +11,16 @@ import { cn } from "@/lib/utils";
 import { useAppState, useServices, type SessionStatus } from "@/services";
 
 export const Route = createFileRoute("/campaigns/$id/sessions/$sid")({
+  head: () => ({
+    meta: [
+      { title: "Session — StoryWeaver" },
+      {
+        name: "description",
+        content:
+          "Session prep, notes, one-click AI recap, and a GM planner that turns open threads and NPCs into a ready-to-run outline.",
+      },
+    ],
+  }),
   component: SessionDetail,
 });
 
