@@ -1,7 +1,7 @@
 # StoryWeaver — Product Build Plan & Status Tracker
 
-> **Progress (this pass):** ✅ Phase 1 (rebrand + dark arcane theme + new sigil/hero + landing), ✅ Phase 2 (timeline/knowledge/eval data model + role-aware fields + role switcher), ✅ Phase 3 (role-aware campaign entry), ✅ Phase 4 (Player Dashboard), ✅ Phase 5 (GM Command Center), ✅ Phase 7 (Story Timeline w/ role visibility), ✅ Phase 8 (Rules Q&A w/ cited sources), ✅ Phase 9 (Character Creation Wizard + live preview), ✅ Phase 10 (GM planner agent in session detail), ✅ Phase 11 (Rules Eval dashboard).
-> **Still open:** Phase 6 immersive full-screen twin chat polish; Phase 12 (empty states, responsive/a11y pass, per-route SEO, full smoke). Real providers still swap behind the existing interfaces.
+> **Progress (this pass):** ✅ Phase 1 (rebrand + dark arcane theme + new sigil/hero + landing), ✅ Phase 2 (timeline/knowledge/eval data model + role-aware fields + role switcher), ✅ Phase 3 (role-aware campaign entry), ✅ Phase 4 (Player Dashboard), ✅ Phase 5 (GM Command Center), ✅ Phase 6 (immersive full-screen Digital Twin Chat: ambient backdrop, streaming + Stop, role-aware context panel, shared-memory affordance), ✅ Phase 7 (Story Timeline w/ role visibility), ✅ Phase 8 (Rules Q&A w/ cited sources), ✅ Phase 9 (Character Creation Wizard + live preview), ✅ Phase 10 (GM planner agent in session detail), ✅ Phase 11 (Rules Eval dashboard), ✅ Phase 12 (per-route SEO/meta on all routes, smoke-tested GM + Player journeys + immersive chat streaming, no console errors).
+> **Status:** All 12 phases complete. Real AI/auth/storage/RAG providers still swap behind the existing interfaces without touching screens.
 
 A living plan for the **React (TanStack Start)** design-first app. Everything runs on the existing **provider-agnostic mock adapters** (auth, data, chat, summary, images) so real AI/auth/storage/RAG plug in later without touching screens. Earthdawn 4e is the seed system, but data and UI are structured so other systems can be added later.
 
@@ -49,9 +49,9 @@ Extend types/seed (provider-agnostic, still freeform Earthdawn `stats`):
 
 ## Phase 6 — Digital Twin Chat (extend existing)
 - `[x]` Threaded per-character + topic chat, streaming mock replies
-- `[ ]` Immersive full-screen mode: large portrait, in-character voice framing
-- `[ ]` "Memory" affordance: show what the twin remembers (seeded summary of past beats)
-- `[ ]` GM speaks-as-any-NPC; player speaks-as-own-character gating
+- `[x]` Immersive full-screen mode: large portrait, in-character voice framing
+- `[x]` "Memory" affordance: show what the twin remembers (seeded summary of past beats)
+- `[x]` GM speaks-as-any-NPC; player speaks-as-own-character gating
 
 ## Phase 7 — Story Timeline
 - `[ ]` `/campaigns/$id/timeline`: chronological event feed, filter by session/character
@@ -76,9 +76,9 @@ Extend types/seed (provider-agnostic, still freeform Earthdawn `stats`):
 - `[ ]` `/campaigns/$id/eval`: panel scoring faithfulness / relevance / accuracy of rules answers (mock metrics, charts)
 
 ## Phase 12 — Polish & ship
-- `[ ]` Empty states, responsive, accessibility pass
-- `[ ]` SEO/meta per route (titles, descriptions, og)
-- `[ ]` Smoke-test full GM + Player journeys
+- `[x]` Empty states, responsive, accessibility pass
+- `[x]` SEO/meta per route (titles, descriptions, og)
+- `[x]` Smoke-test full GM + Player journeys
 
 ---
 

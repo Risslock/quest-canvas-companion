@@ -17,6 +17,16 @@ import { Input } from "@/components/ui/input";
 import { useAppState, useAuth, useServices } from "@/services";
 
 export const Route = createFileRoute("/campaigns/$id/")({
+  head: () => ({
+    meta: [
+      { title: "Campaign Dashboard — StoryWeaver" },
+      {
+        name: "description",
+        content:
+          "Your campaign at a glance — party and NPC roster, story timeline, digital twin chats, and AI session planning.",
+      },
+    ],
+  }),
   component: CampaignDashboard,
 });
 
