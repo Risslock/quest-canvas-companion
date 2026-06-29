@@ -1,5 +1,8 @@
 # StoryWeaver — Product Build Plan & Status Tracker
 
+> **Progress (this pass):** ✅ Phase 1 (rebrand + dark arcane theme + new sigil/hero + landing), ✅ Phase 2 (timeline/knowledge/eval data model + role-aware fields + role switcher), ✅ Phase 3 (role-aware campaign entry), ✅ Phase 4 (Player Dashboard), ✅ Phase 5 (GM Command Center), ✅ Phase 7 (Story Timeline w/ role visibility), ✅ Phase 8 (Rules Q&A w/ cited sources), ✅ Phase 9 (Character Creation Wizard + live preview), ✅ Phase 10 (GM planner agent in session detail), ✅ Phase 11 (Rules Eval dashboard).
+> **Still open:** Phase 6 immersive full-screen twin chat polish; Phase 12 (empty states, responsive/a11y pass, per-route SEO, full smoke). Real providers still swap behind the existing interfaces.
+
 A living plan for the **React (TanStack Start)** design-first app. Everything runs on the existing **provider-agnostic mock adapters** (auth, data, chat, summary, images) so real AI/auth/storage/RAG plug in later without touching screens. Earthdawn 4e is the seed system, but data and UI are structured so other systems can be added later.
 
 ## Status legend
