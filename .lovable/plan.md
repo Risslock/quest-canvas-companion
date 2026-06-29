@@ -49,9 +49,9 @@ Extend types/seed (provider-agnostic, still freeform Earthdawn `stats`):
 
 ## Phase 6 — Digital Twin Chat (extend existing)
 - `[x]` Threaded per-character + topic chat, streaming mock replies
-- `[ ]` Immersive full-screen mode: large portrait, in-character voice framing
-- `[ ]` "Memory" affordance: show what the twin remembers (seeded summary of past beats)
-- `[ ]` GM speaks-as-any-NPC; player speaks-as-own-character gating
+- `[x]` Immersive full-screen mode: large portrait, in-character voice framing
+- `[x]` "Memory" affordance: show what the twin remembers (seeded summary of past beats)
+- `[x]` GM speaks-as-any-NPC; player speaks-as-own-character gating
 
 ## Phase 7 — Story Timeline
 - `[ ]` `/campaigns/$id/timeline`: chronological event feed, filter by session/character
@@ -76,9 +76,9 @@ Extend types/seed (provider-agnostic, still freeform Earthdawn `stats`):
 - `[ ]` `/campaigns/$id/eval`: panel scoring faithfulness / relevance / accuracy of rules answers (mock metrics, charts)
 
 ## Phase 12 — Polish & ship
-- `[ ]` Empty states, responsive, accessibility pass
-- `[ ]` SEO/meta per route (titles, descriptions, og)
-- `[ ]` Smoke-test full GM + Player journeys
+- `[x]` Empty states, responsive, accessibility pass
+- `[x]` SEO/meta per route (titles, descriptions, og)
+- `[x]` Smoke-test full GM + Player journeys
 
 ---
 
