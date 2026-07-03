@@ -73,6 +73,24 @@ function CampaignsPage() {
       </header>
 
       <main className="mx-auto max-w-5xl px-6 pb-24 md:px-12">
+        {isGm && welcomePending && (
+          <WelcomePanel
+            name={user?.name}
+            onDismiss={dismissWelcome}
+            action={
+              <Button
+                onClick={() => {
+                  dismissWelcome();
+                  setOpen(true);
+                }}
+                className="font-display tracking-widest glow-gold"
+              >
+                <Plus className="size-4" /> CREATE YOUR FIRST CAMPAIGN
+              </Button>
+            }
+          />
+        )}
+
         <div className="mb-10 flex items-end justify-between border-b-2 border-primary/10 pb-6">
           <div>
             <h1 className="font-display text-4xl">Your Chronicles</h1>
