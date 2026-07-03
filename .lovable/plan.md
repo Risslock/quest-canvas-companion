@@ -1,113 +1,46 @@
-# StoryWeaver — Product Build Plan & Status Tracker
+# StoryWeaver — GM First-Run & Onboarding Pass
 
-> **Progress (this pass):** ✅ Phase 1 (rebrand + dark arcane theme + new sigil/hero + landing), ✅ Phase 2 (timeline/knowledge/eval data model + role-aware fields + role switcher), ✅ Phase 3 (role-aware campaign entry), ✅ Phase 4 (Player Dashboard), ✅ Phase 5 (GM Command Center), ✅ Phase 6 (immersive full-screen Digital Twin Chat: ambient backdrop, streaming + Stop, role-aware context panel, shared-memory affordance), ✅ Phase 7 (Story Timeline w/ role visibility), ✅ Phase 8 (Rules Q&A w/ cited sources), ✅ Phase 9 (Character Creation Wizard + live preview), ✅ Phase 10 (GM planner agent in session detail), ✅ Phase 11 (Rules Eval dashboard), ✅ Phase 12 (per-route SEO/meta on all routes, smoke-tested GM + Player journeys + immersive chat streaming, no console errors).
-> **Status:** All 12 phases complete. Real AI/auth/storage/RAG providers still swap behind the existing interfaces without touching screens.
+A focused, modest pass (scope ~2/5) that makes a **new Game Master** feel guided from the moment they arrive, instead of landing in dense screens that assume seeded data. No new backend, no new major features — just guidance, empty states, and a light "getting started" flow layered onto what exists.
 
-A living plan for the **React (TanStack Start)** design-first app. Everything runs on the existing **provider-agnostic mock adapters** (auth, data, chat, summary, images) so real AI/auth/storage/RAG plug in later without touching screens. Earthdawn 4e is the seed system, but data and UI are structured so other systems can be added later.
+## Goal
 
-## Status legend
-`[x]` done · `[~]` partial / needs rework · `[ ]` not started
+A first-time GM should always know the single next thing to do: create a campaign → add the party → plan a session → talk to a twin. Today those screens work, but only shine when demo seed data is present. A fresh, empty campaign feels blank and unguided.
 
----
+## What we'll build
 
-## Phase 0 — Foundation (mostly built)
-- `[x]` Provider-agnostic service contracts (`src/services/interfaces.ts`)
-- `[x]` Mock adapters: auth, data store (localStorage), chat stream, summary, images
-- `[x]` Observable store + `ServicesProvider` + `useAuth`/`useAppState`
-- `[x]` Earthdawn seed data (campaign, PCs, NPCs, threads, sessions, images)
-- `[x]` AI Elements chat primitives, base routing tree
-- `[~]` Domain types — extend for new features (see Phase 2 data model)
+### 1. Welcome moment after sign-up (GM)
+- After a GM signs up (not sign-in), show a short, dismissible welcome panel on the campaigns page: one line on what StoryWeaver does for a GM + a primary "Create your first campaign" call to action.
+- Skippable, and never shown again once dismissed (stored per-user in local state).
 
-## Phase 1 — Rebrand & "Arcane but clean" theme
-- `[ ]` Rename **Barsaive Chronicle → StoryWeaver** across brand, titles, meta, storage key
-- `[ ]` New dark palette in `src/styles.css` (OKLCH tokens): deep navy/slate base, aged-parchment surfaces, **gold + ember** accents; keep light parchment as an optional reading surface for journal/timeline
-- `[ ]` Typography: keep Cinzel (display) + EB Garamond (body) tuned for dark bg; verify contrast in both roles
-- `[ ]` Generate a StoryWeaver logo/sigil + atmospheric landing art
-- `[ ]` "Living" polish: subtle glow states, transitions, ambient motion (no clutter)
-- `[ ]` Rewrite landing page (`/`) for StoryWeaver value prop + key features
+### 2. Campaigns list — a real empty state
+- When a GM has no campaigns, replace the bare grid with a centered, inviting empty state: a short prompt and a prominent "Found your first chronicle" button that opens the existing create dialog.
+- Keeps the current grid untouched when campaigns exist.
 
-## Phase 2 — Data model & role foundation
-Extend types/seed (provider-agnostic, still freeform Earthdawn `stats`):
-- `[ ]` **Role-aware access**: GM sees all; player sees only their character's knowledge. Add `visibility: "gm" | "all"` to timeline events, lore, notes
-- `[ ]` **Timeline events** entity (sessionId, characterRefs, title, body, visibility, timestamp)
-- `[ ]` **Knowledge sources** entity (title, type, GM-only flag) + **Q&A** with cited chunks
-- `[ ]` **Rules eval** records (question, faithfulness/relevance/accuracy scores)
-- `[ ]` **Character creation** structured fields (identity, discipline, talents, relationships, goals) layered over existing `stats`
-- `[ ]` Role switcher (GM/Player) wired to seeded users for demoing both experiences
+### 3. GM Command Center — "Getting Started" checklist
+- Add a compact, dismissible checklist card at the top of the Command Center that reflects real campaign state:
+  - Add your first character/NPC (done when the campaign has ≥1 character)
+  - Plan your first session (done when a session exists)
+  - Talk to a digital twin (done when any thread exists)
+  - Try a rules question (done when the campaign has an eval/Q&A record, or mark optional)
+- Each incomplete item is a direct link to the right screen. Completed items show a check. The whole card auto-hides once all core steps are done, and can be dismissed manually.
 
-## Phase 3 — Campaign Hub
-- `[~]` Campaign list/create exists (`campaigns.index.tsx`) → restyle as **Campaign Hub**: recent campaigns, quick-join, create
-- `[ ]` Per-campaign landing routes by role (GM → Command Center, Player → Dashboard)
+### 4. Warmer empty states inside the Command Center
+- Party section, NPC list, sessions/planner, and Forge gallery each get a friendly one-line empty prompt with a direct action when there's nothing yet (several already have partial versions — this makes them consistent).
 
-## Phase 4 — Player Dashboard
-- `[ ]` `/campaigns/$id` player view: character summary card, twin chat entry, timeline feed (filtered to character), rules Q&A widget
-- `[~]` Reuse/restyle existing dashboard (`campaigns.$id.index.tsx`)
+### 5. Small guidance polish
+- Auth page: a one-line hint under the GM/Player toggle explaining what a GM account unlocks.
+- Command Center header: when the campaign has no description, show a gentle "Add a premise" affordance instead of empty space.
 
-## Phase 5 — GM Command Center
-- `[ ]` GM `/campaigns/$id` view: campaign overview, NPC roster, session planner entry, knowledge upload, eval panel entry
-- `[ ]` Information-dense "command center" layout, organized not overwhelming
+## Explicitly out of scope
+- No changes to AI, data providers, or storage architecture.
+- No player-side onboarding this pass (GM-first, per your choice).
+- No new routes or multi-step product tours/overlays — guidance stays inline and lightweight.
 
-## Phase 6 — Digital Twin Chat (extend existing)
-- `[x]` Threaded per-character + topic chat, streaming mock replies
-- `[x]` Immersive full-screen mode: large portrait, in-character voice framing
-- `[x]` "Memory" affordance: show what the twin remembers (seeded summary of past beats)
-- `[x]` GM speaks-as-any-NPC; player speaks-as-own-character gating
+## Technical notes
+- All work is frontend/presentation only, in existing route files: `src/routes/campaigns.index.tsx`, `src/routes/campaigns.$id.index.tsx` (the `CommandCenter`), and `src/routes/auth.tsx`.
+- Onboarding dismissal + "new signup" flag stored via the existing services/local state pattern (e.g. a small `localStorage`-backed flag keyed by user id) so nothing new is added to the data model.
+- Checklist state is derived from existing `useAppState()` selectors (characters, sessions, threads) — no new persistence needed for completion status.
+- One small reusable presentational component for the checklist/empty-state cards to keep the routes tidy; styled with existing semantic tokens (accent/card/muted) — no hardcoded colors.
 
-## Phase 7 — Story Timeline
-- `[ ]` `/campaigns/$id/timeline`: chronological event feed, filter by session/character
-- `[ ]` Role-based visibility (player sees only what their character would know)
-- `[ ]` Auto-population hook from session summaries (mock now)
-
-## Phase 8 — Rules / Game Knowledge Q&A
-- `[ ]` `/campaigns/$id/rules`: natural-language question input
-- `[ ]` Answer display with **expandable source citations** (mock RAG over seeded rules)
-- `[ ]` GM-only lore stays GM-only
-
-## Phase 9 — Character Creation Wizard
-- `[ ]` `/campaigns/$id/characters/new`: multi-step guided builder with **live preview**
-- `[ ]` Steps: identity → discipline → talents → background → personality → relationships → goals
-- `[ ]` Output structured so the twin is "smarter," not just a sheet
-
-## Phase 10 — Session Planning (GM)
-- `[x]` Session list + detail + one-click AI summary exist
-- `[ ]` GM planner agent view: open plot threads, available NPCs, last-time recap → generated outline (mock)
-
-## Phase 11 — Rules Evaluation Dashboard (GM)
-- `[ ]` `/campaigns/$id/eval`: panel scoring faithfulness / relevance / accuracy of rules answers (mock metrics, charts)
-
-## Phase 12 — Polish & ship
-- `[x]` Empty states, responsive, accessibility pass
-- `[x]` SEO/meta per route (titles, descriptions, og)
-- `[x]` Smoke-test full GM + Player journeys
-
----
-
-## Routing map (target)
-```text
-/                                         landing (StoryWeaver)
-/auth                                     sign in / up (mock)
-/campaigns                                Campaign Hub
-/campaigns/$id                            role-aware dashboard (GM CC / Player)
-/campaigns/$id/characters                 roster
-/campaigns/$id/characters/new             creation wizard
-/campaigns/$id/characters/$cid            profile + thread list
-/campaigns/$id/characters/$cid/$threadId  twin chat (immersive)
-/campaigns/$id/timeline                   story timeline
-/campaigns/$id/rules                      rules Q&A
-/campaigns/$id/sessions                   session list
-/campaigns/$id/sessions/$sid              prep / notes / summary / planner
-/campaigns/$id/eval                       rules eval dashboard (GM)
-/campaigns/$id/images                     portraits & scene art
-```
-
-## Technical notes (for the curious)
-- Stays on TanStack file-based routing; `routeTree.gen.ts` auto-generated.
-- New capabilities (RAG Q&A, eval scoring, planner) added as **mock adapter methods behind interfaces** — real OpenAI/Anthropic/vector-DB/auth swap in one place later.
-- Theme via Tailwind v4 `@theme` tokens in `src/styles.css`; fonts via `<link>` in `__root.tsx` (no remote `@import`).
-- Role visibility enforced in the UI/data layer now; real server-side enforcement deferred to the real auth/data provider.
-- The separate `/gradio` Python track is untouched by this plan.
-
-## Suggested build order
-Phase 1 (rebrand + theme) → 2 (data/roles) → 3 (hub) → 4 & 5 (dashboards) → 6/7/8 (twin, timeline, rules) → 9 (wizard) → 10/11 (planner, eval) → 12 (polish).
-
-First implementation step after approval: Phase 1 — rebrand to StoryWeaver and lock the dark arcane theme tokens.
+## Outcome
+A new GM is never dropped into a blank, ambiguous screen. Every empty state points to the obvious next action, and a lightweight checklist gives a clear sense of progress toward a live campaign — without adding feature bloat.
