@@ -7,11 +7,13 @@ import {
   Plus,
   ScrollText,
   Sparkles,
+  Users,
   Wand2,
 } from "lucide-react";
 
 import { CharacterAvatar } from "@/components/character-avatar";
 import { SectionHeading } from "@/components/campaign-sidebar";
+import { ChecklistCard, EmptyState, useDismissed } from "@/components/onboarding";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAppState, useAuth, useServices } from "@/services";
