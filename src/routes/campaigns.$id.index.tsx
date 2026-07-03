@@ -214,15 +214,66 @@ function CommandCenter() {
     [state.images, id],
   );
 
+  const roster = useMemo(
+    () => state.characters.filter((c) => c.campaignId === id),
+    [state.characters, id],
+  );
+  const threads = useMemo(
+    () => state.threads.filter((t) => roster.some((c) => c.id === t.characterId)),
+    [state.threads, roster],
+  );
+  const evals = useMemo(
+    () => state.evals.filter((e) => e.campaignId === id),
+    [state.evals, id],
+  );
+
   const plannerSession =
     sessions.find((s) => s.status === "active") ??
     sessions.find((s) => s.status === "planned") ??
     sessions[0];
 
+  const firstCharacter = roster[0];
+  const checklist = [
+    {
+      label: "Add your first character or NPC",
+      hint: "Give the world a face to talk to.",
+      done: roster.length > 0,
+      to: "/campaigns/$id/characters/new" as const,
+      cta: "Add",
+    },
+    {
+      label: "Plan your first session",
+      hint: "Let the GM agent draft an outline.",
+      done: sessions.length > 0,
+      to: null,
+      cta: "Plan",
+    },
+    {
+      label: "Talk to a digital twin",
+      hint: "Hear a character speak in their own voice.",
+      done: threads.length > 0,
+      to: firstCharacter
+        ? ("/campaigns/$id/characters/$cid" as const)
+        : ("/campaigns/$id/characters" as const),
+      cta: "Open",
+    },
+    {
+      label: "Ask a rules question",
+      hint: "Get a cited, grounded answer.",
+      done: evals.length > 0,
+      to: "/campaigns/$id/rules" as const,
+      cta: "Ask",
+    },
+  ];
+  const allDone = checklist.every((i) => i.done);
+  const [checklistDismissed, dismissChecklist] = useDismissed(`sw:checklist:${id}`);
+  const showChecklist = !checklistDismissed && !allDone;
+
   const newSession = () => {
     const s = data.createSession({ campaignId: id, title: `Session ${sessions.length + 1}` });
     navigate({ to: "/campaigns/$id/sessions/$sid", params: { id, sid: s.id } });
   };
+
 
   return (
     <div className="p-6 md:p-8">
