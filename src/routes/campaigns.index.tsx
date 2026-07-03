@@ -39,6 +39,10 @@ function CampaignsPage() {
   const [setting, setSetting] = useState("Barsaive · The Age of Legend");
   const [description, setDescription] = useState("");
 
+  const [welcomePending, dismissWelcome] = useWelcomePending(user?.id);
+  const isGm = user?.role === "gm";
+  const hasCampaigns = state.campaigns.length > 0;
+
   const create = () => {
     if (!name.trim()) return;
     const c = data.createCampaign({ name: name.trim(), setting, description });
