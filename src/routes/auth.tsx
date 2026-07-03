@@ -6,6 +6,7 @@ import { Brand } from "@/components/brand";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { markWelcomePending } from "@/components/onboarding";
 import { cn } from "@/lib/utils";
 import { useAuth, type UserRole } from "@/services";
 
