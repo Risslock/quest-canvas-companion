@@ -283,12 +283,62 @@ function CommandCenter() {
             {campaign.setting}
           </p>
           <h2 className="mt-1 font-display text-4xl">{campaign.name}</h2>
-          <p className="mt-2 max-w-2xl italic text-foreground/60">{campaign.description}</p>
+          {campaign.description ? (
+            <p className="mt-2 max-w-2xl italic text-foreground/60">{campaign.description}</p>
+          ) : (
+            <p className="mt-2 text-sm italic text-muted-foreground">
+              No premise yet — the story is still unwritten.
+            </p>
+          )}
         </div>
         <Button onClick={newSession} className="font-display tracking-widest">
           <Plus className="size-4" /> NEW SESSION
         </Button>
       </div>
+
+      {showChecklist && (
+        <ChecklistCard
+          title="Bring your campaign to life"
+          onDismiss={dismissChecklist}
+          items={checklist.map((i) => ({
+            label: i.label,
+            hint: i.hint,
+            done: i.done,
+            action: i.done ? undefined : i.to === null ? (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={newSession}
+                className="font-display text-[10px] tracking-widest"
+              >
+                {i.cta}
+              </Button>
+            ) : i.to === "/campaigns/$id/characters/$cid" ? (
+              <Button
+                asChild
+                size="sm"
+                variant="outline"
+                className="font-display text-[10px] tracking-widest"
+              >
+                <Link to={i.to} params={{ id, cid: firstCharacter!.id }}>
+                  {i.cta}
+                </Link>
+              </Button>
+            ) : (
+              <Button
+                asChild
+                size="sm"
+                variant="outline"
+                className="font-display text-[10px] tracking-widest"
+              >
+                <Link to={i.to} params={{ id }}>
+                  {i.cta}
+                </Link>
+              </Button>
+            ),
+          }))}
+        />
+      )}
 
       {/* GM quick tools */}
       <div className="mb-10 grid gap-4 sm:grid-cols-3">
