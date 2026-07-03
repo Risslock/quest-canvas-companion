@@ -6,6 +6,7 @@ import { Brand } from "@/components/brand";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { markWelcomePending } from "@/components/onboarding";
 import { cn } from "@/lib/utils";
 import { useAuth, type UserRole } from "@/services";
 
@@ -33,7 +34,8 @@ function AuthPage() {
       if (mode === "signin") {
         await signIn(email, password);
       } else {
-        await signUp({ name: name || "Adept", email, password, role });
+        const created = await signUp({ name: name || "Adept", email, password, role });
+        if (created.role === "gm") markWelcomePending(created.id);
       }
       toast.success("Welcome to the Chronicle.");
       navigate({ to: "/campaigns" });
@@ -125,6 +127,11 @@ function AuthPage() {
                     </button>
                   ))}
                 </div>
+                <p className="text-xs text-muted-foreground">
+                  {role === "gm"
+                    ? "GM accounts unlock the command center: session planning, the full story timeline, NPC twins, and GM-only lore."
+                    : "Players get a personal journal, their character's digital twin, and the story as their character would know it."}
+                </p>
               </div>
             )}
 

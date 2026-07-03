@@ -7,11 +7,13 @@ import {
   Plus,
   ScrollText,
   Sparkles,
+  Users,
   Wand2,
 } from "lucide-react";
 
 import { CharacterAvatar } from "@/components/character-avatar";
 import { SectionHeading } from "@/components/campaign-sidebar";
+import { ChecklistCard, EmptyState, useDismissed } from "@/components/onboarding";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAppState, useAuth, useServices } from "@/services";
@@ -212,15 +214,66 @@ function CommandCenter() {
     [state.images, id],
   );
 
+  const roster = useMemo(
+    () => state.characters.filter((c) => c.campaignId === id),
+    [state.characters, id],
+  );
+  const threads = useMemo(
+    () => state.threads.filter((t) => roster.some((c) => c.id === t.characterId)),
+    [state.threads, roster],
+  );
+  const evals = useMemo(
+    () => state.evals.filter((e) => e.campaignId === id),
+    [state.evals, id],
+  );
+
   const plannerSession =
     sessions.find((s) => s.status === "active") ??
     sessions.find((s) => s.status === "planned") ??
     sessions[0];
 
+  const firstCharacter = roster[0];
+  const checklist = [
+    {
+      label: "Add your first character or NPC",
+      hint: "Give the world a face to talk to.",
+      done: roster.length > 0,
+      to: "/campaigns/$id/characters/new" as const,
+      cta: "Add",
+    },
+    {
+      label: "Plan your first session",
+      hint: "Let the GM agent draft an outline.",
+      done: sessions.length > 0,
+      to: null,
+      cta: "Plan",
+    },
+    {
+      label: "Talk to a digital twin",
+      hint: "Hear a character speak in their own voice.",
+      done: threads.length > 0,
+      to: firstCharacter
+        ? ("/campaigns/$id/characters/$cid" as const)
+        : ("/campaigns/$id/characters" as const),
+      cta: "Open",
+    },
+    {
+      label: "Ask a rules question",
+      hint: "Get a cited, grounded answer.",
+      done: evals.length > 0,
+      to: "/campaigns/$id/rules" as const,
+      cta: "Ask",
+    },
+  ];
+  const allDone = checklist.every((i) => i.done);
+  const [checklistDismissed, dismissChecklist] = useDismissed(`sw:checklist:${id}`);
+  const showChecklist = !checklistDismissed && !allDone;
+
   const newSession = () => {
     const s = data.createSession({ campaignId: id, title: `Session ${sessions.length + 1}` });
     navigate({ to: "/campaigns/$id/sessions/$sid", params: { id, sid: s.id } });
   };
+
 
   return (
     <div className="p-6 md:p-8">
@@ -230,12 +283,62 @@ function CommandCenter() {
             {campaign.setting}
           </p>
           <h2 className="mt-1 font-display text-4xl">{campaign.name}</h2>
-          <p className="mt-2 max-w-2xl italic text-foreground/60">{campaign.description}</p>
+          {campaign.description ? (
+            <p className="mt-2 max-w-2xl italic text-foreground/60">{campaign.description}</p>
+          ) : (
+            <p className="mt-2 text-sm italic text-muted-foreground">
+              No premise yet — the story is still unwritten.
+            </p>
+          )}
         </div>
         <Button onClick={newSession} className="font-display tracking-widest">
           <Plus className="size-4" /> NEW SESSION
         </Button>
       </div>
+
+      {showChecklist && (
+        <ChecklistCard
+          title="Bring your campaign to life"
+          onDismiss={dismissChecklist}
+          items={checklist.map((i) => ({
+            label: i.label,
+            hint: i.hint,
+            done: i.done,
+            action: i.done ? undefined : i.to === null ? (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={newSession}
+                className="font-display text-[10px] tracking-widest"
+              >
+                {i.cta}
+              </Button>
+            ) : i.to === "/campaigns/$id/characters/$cid" ? (
+              <Button
+                asChild
+                size="sm"
+                variant="outline"
+                className="font-display text-[10px] tracking-widest"
+              >
+                <Link to={i.to} params={{ id, cid: firstCharacter!.id }}>
+                  {i.cta}
+                </Link>
+              </Button>
+            ) : (
+              <Button
+                asChild
+                size="sm"
+                variant="outline"
+                className="font-display text-[10px] tracking-widest"
+              >
+                <Link to={i.to} params={{ id }}>
+                  {i.cta}
+                </Link>
+              </Button>
+            ),
+          }))}
+        />
+      )}
 
       {/* GM quick tools */}
       <div className="mb-10 grid gap-4 sm:grid-cols-3">
@@ -302,16 +405,23 @@ function CommandCenter() {
                 </div>
               ))}
               {pcs.length === 0 && (
-                <Link
-                  to="/campaigns/$id/characters/new"
-                  params={{ id }}
-                  className="grid place-items-center rounded-lg border border-dashed border-accent/30 p-8 text-center text-sm text-muted-foreground hover:border-accent/60"
-                >
-                  No characters yet — add your party.
-                </Link>
+                <EmptyState
+                  icon={Users}
+                  title="No heroes gathered yet"
+                  body="Add the adventurers at your table. Each becomes a digital twin that remembers the campaign."
+                  className="md:col-span-2"
+                  action={
+                    <Button asChild className="font-display tracking-widest">
+                      <Link to="/campaigns/$id/characters/new" params={{ id }}>
+                        <Plus className="size-4" /> ADD A CHARACTER
+                      </Link>
+                    </Button>
+                  }
+                />
               )}
             </div>
           </section>
+
 
           <section className="rounded-lg surface-parchment p-8 shadow-arcane">
             <h3 className="font-display text-xl">Forge of Visions</h3>
@@ -346,28 +456,34 @@ function CommandCenter() {
                 <Sparkles className="size-4" /> MANIFEST
               </Button>
             </div>
-            <div className="grid grid-cols-3 gap-4">
-              {images.map((img) => (
-                <Link
-                  key={img.id}
-                  to="/campaigns/$id/images"
-                  params={{ id }}
-                  className="group relative aspect-square overflow-hidden rounded outline outline-1 outline-foreground/10"
-                >
-                  <img
-                    src={img.url}
-                    alt={img.prompt}
-                    loading="lazy"
-                    className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </Link>
-              ))}
-            </div>
+            {images.length > 0 ? (
+              <div className="grid grid-cols-3 gap-4">
+                {images.map((img) => (
+                  <Link
+                    key={img.id}
+                    to="/campaigns/$id/images"
+                    params={{ id }}
+                    className="group relative aspect-square overflow-hidden rounded outline outline-1 outline-foreground/10"
+                  >
+                    <img
+                      src={img.url}
+                      alt={img.prompt}
+                      loading="lazy"
+                      className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm opacity-60">
+                Nothing conjured yet — describe a scene above to manifest your first vision.
+              </p>
+            )}
           </section>
         </div>
 
         <div className="col-span-12 space-y-8 lg:col-span-4">
-          {plannerSession && (
+          {plannerSession ? (
             <section className="border-l-4 border-accent bg-card p-6">
               <div className="mb-4 flex items-center justify-between">
                 <h3 className="font-display text-lg italic text-primary underline decoration-accent/30">
@@ -389,6 +505,23 @@ function CommandCenter() {
                   {plannerSession.plan}
                 </p>
               )}
+            </section>
+          ) : (
+            <section className="border-l-4 border-accent bg-card p-6">
+              <h3 className="font-display text-lg italic text-primary underline decoration-accent/30">
+                Session Planner
+              </h3>
+              <p className="mt-3 text-sm text-foreground/70">
+                No sessions yet. Start one and the GM agent will draft an outline from your
+                campaign's open threads and NPCs.
+              </p>
+              <Button
+                onClick={newSession}
+                size="sm"
+                className="mt-4 font-display tracking-widest"
+              >
+                <Plus className="size-4" /> PLAN A SESSION
+              </Button>
             </section>
           )}
 
@@ -436,6 +569,15 @@ function CommandCenter() {
                   </div>
                 </Link>
               ))}
+              {npcs.length === 0 && (
+                <Link
+                  to="/campaigns/$id/characters/new"
+                  params={{ id }}
+                  className="flex items-center gap-2 rounded-md p-1 text-sm text-muted-foreground transition-colors hover:text-accent"
+                >
+                  <Plus className="size-4" /> Populate your world with an NPC
+                </Link>
+              )}
             </div>
           </section>
         </div>

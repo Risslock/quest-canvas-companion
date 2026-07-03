@@ -1,8 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Plus, Users } from "lucide-react";
+import { Plus, ScrollText, Users } from "lucide-react";
 
 import { Brand } from "@/components/brand";
+import { EmptyState, WelcomePanel, useWelcomePending } from "@/components/onboarding";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -38,6 +39,10 @@ function CampaignsPage() {
   const [setting, setSetting] = useState("Barsaive · The Age of Legend");
   const [description, setDescription] = useState("");
 
+  const [welcomePending, dismissWelcome] = useWelcomePending(user?.id);
+  const isGm = user?.role === "gm";
+  const hasCampaigns = state.campaigns.length > 0;
+
   const create = () => {
     if (!name.trim()) return;
     const c = data.createCampaign({ name: name.trim(), setting, description });
@@ -68,6 +73,24 @@ function CampaignsPage() {
       </header>
 
       <main className="mx-auto max-w-5xl px-6 pb-24 md:px-12">
+        {isGm && welcomePending && (
+          <WelcomePanel
+            name={user?.name}
+            onDismiss={dismissWelcome}
+            action={
+              <Button
+                onClick={() => {
+                  dismissWelcome();
+                  setOpen(true);
+                }}
+                className="font-display tracking-widest glow-gold"
+              >
+                <Plus className="size-4" /> CREATE YOUR FIRST CAMPAIGN
+              </Button>
+            }
+          />
+        )}
+
         <div className="mb-10 flex items-end justify-between border-b-2 border-primary/10 pb-6">
           <div>
             <h1 className="font-display text-4xl">Your Chronicles</h1>
@@ -122,30 +145,46 @@ function CampaignsPage() {
           </Dialog>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2">
-          {state.campaigns.map((c) => {
-            const members = state.characters.filter((ch) => ch.campaignId === c.id).length;
-            return (
-              <Link
-                key={c.id}
-                to="/campaigns/$id"
-                params={{ id: c.id }}
-                className="group rounded-lg border border-accent/20 bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+        {hasCampaigns ? (
+          <div className="grid gap-6 sm:grid-cols-2">
+            {state.campaigns.map((c) => {
+              const members = state.characters.filter((ch) => ch.campaignId === c.id).length;
+              return (
+                <Link
+                  key={c.id}
+                  to="/campaigns/$id"
+                  params={{ id: c.id }}
+                  className="group rounded-lg border border-accent/20 bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <p className="font-display text-xs uppercase tracking-[0.3em] text-accent">
+                    {c.setting}
+                  </p>
+                  <h2 className="mt-2 font-display text-2xl group-hover:text-primary">{c.name}</h2>
+                  <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-foreground/70">
+                    {c.description || "No premise written yet."}
+                  </p>
+                  <div className="mt-5 flex items-center gap-2 text-xs text-muted-foreground">
+                    <Users className="size-4" /> {members} characters
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        ) : (
+          <EmptyState
+            icon={ScrollText}
+            title="No chronicles yet"
+            body="Every legend begins with a single page. Found your first campaign and StoryWeaver will handle the remembering."
+            action={
+              <Button
+                onClick={() => setOpen(true)}
+                className="font-display tracking-widest glow-gold"
               >
-                <p className="font-display text-xs uppercase tracking-[0.3em] text-accent">
-                  {c.setting}
-                </p>
-                <h2 className="mt-2 font-display text-2xl group-hover:text-primary">{c.name}</h2>
-                <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-foreground/70">
-                  {c.description || "No premise written yet."}
-                </p>
-                <div className="mt-5 flex items-center gap-2 text-xs text-muted-foreground">
-                  <Users className="size-4" /> {members} characters
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+                <Plus className="size-4" /> FOUND YOUR FIRST CHRONICLE
+              </Button>
+            }
+          />
+        )}
       </main>
     </div>
   );
