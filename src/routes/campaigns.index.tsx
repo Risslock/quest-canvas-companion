@@ -1,8 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Plus, Users } from "lucide-react";
+import { Plus, ScrollText, Users } from "lucide-react";
 
 import { Brand } from "@/components/brand";
+import { EmptyState, WelcomePanel, useWelcomePending } from "@/components/onboarding";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
