@@ -405,16 +405,23 @@ function CommandCenter() {
                 </div>
               ))}
               {pcs.length === 0 && (
-                <Link
-                  to="/campaigns/$id/characters/new"
-                  params={{ id }}
-                  className="grid place-items-center rounded-lg border border-dashed border-accent/30 p-8 text-center text-sm text-muted-foreground hover:border-accent/60"
-                >
-                  No characters yet — add your party.
-                </Link>
+                <EmptyState
+                  icon={Users}
+                  title="No heroes gathered yet"
+                  body="Add the adventurers at your table. Each becomes a digital twin that remembers the campaign."
+                  className="md:col-span-2"
+                  action={
+                    <Button asChild className="font-display tracking-widest">
+                      <Link to="/campaigns/$id/characters/new" params={{ id }}>
+                        <Plus className="size-4" /> ADD A CHARACTER
+                      </Link>
+                    </Button>
+                  }
+                />
               )}
             </div>
           </section>
+
 
           <section className="rounded-lg surface-parchment p-8 shadow-arcane">
             <h3 className="font-display text-xl">Forge of Visions</h3>
