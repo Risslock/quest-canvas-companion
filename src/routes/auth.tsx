@@ -127,6 +127,11 @@ function AuthPage() {
                     </button>
                   ))}
                 </div>
+                <p className="text-xs text-muted-foreground">
+                  {role === "gm"
+                    ? "GM accounts unlock the command center: session planning, the full story timeline, NPC twins, and GM-only lore."
+                    : "Players get a personal journal, their character's digital twin, and the story as their character would know it."}
+                </p>
               </div>
             )}
 
