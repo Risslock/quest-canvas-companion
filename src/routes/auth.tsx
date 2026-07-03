@@ -34,7 +34,8 @@ function AuthPage() {
       if (mode === "signin") {
         await signIn(email, password);
       } else {
-        await signUp({ name: name || "Adept", email, password, role });
+        const created = await signUp({ name: name || "Adept", email, password, role });
+        if (created.role === "gm") markWelcomePending(created.id);
       }
       toast.success("Welcome to the Chronicle.");
       navigate({ to: "/campaigns" });
