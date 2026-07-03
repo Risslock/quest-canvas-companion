@@ -569,6 +569,15 @@ function CommandCenter() {
                   </div>
                 </Link>
               ))}
+              {npcs.length === 0 && (
+                <Link
+                  to="/campaigns/$id/characters/new"
+                  params={{ id }}
+                  className="flex items-center gap-2 rounded-md p-1 text-sm text-muted-foreground transition-colors hover:text-accent"
+                >
+                  <Plus className="size-4" /> Populate your world with an NPC
+                </Link>
+              )}
             </div>
           </section>
         </div>
