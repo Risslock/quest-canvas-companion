@@ -456,28 +456,34 @@ function CommandCenter() {
                 <Sparkles className="size-4" /> MANIFEST
               </Button>
             </div>
-            <div className="grid grid-cols-3 gap-4">
-              {images.map((img) => (
-                <Link
-                  key={img.id}
-                  to="/campaigns/$id/images"
-                  params={{ id }}
-                  className="group relative aspect-square overflow-hidden rounded outline outline-1 outline-foreground/10"
-                >
-                  <img
-                    src={img.url}
-                    alt={img.prompt}
-                    loading="lazy"
-                    className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </Link>
-              ))}
-            </div>
+            {images.length > 0 ? (
+              <div className="grid grid-cols-3 gap-4">
+                {images.map((img) => (
+                  <Link
+                    key={img.id}
+                    to="/campaigns/$id/images"
+                    params={{ id }}
+                    className="group relative aspect-square overflow-hidden rounded outline outline-1 outline-foreground/10"
+                  >
+                    <img
+                      src={img.url}
+                      alt={img.prompt}
+                      loading="lazy"
+                      className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm opacity-60">
+                Nothing conjured yet — describe a scene above to manifest your first vision.
+              </p>
+            )}
           </section>
         </div>
 
         <div className="col-span-12 space-y-8 lg:col-span-4">
-          {plannerSession && (
+          {plannerSession ? (
             <section className="border-l-4 border-accent bg-card p-6">
               <div className="mb-4 flex items-center justify-between">
                 <h3 className="font-display text-lg italic text-primary underline decoration-accent/30">
@@ -499,6 +505,23 @@ function CommandCenter() {
                   {plannerSession.plan}
                 </p>
               )}
+            </section>
+          ) : (
+            <section className="border-l-4 border-accent bg-card p-6">
+              <h3 className="font-display text-lg italic text-primary underline decoration-accent/30">
+                Session Planner
+              </h3>
+              <p className="mt-3 text-sm text-foreground/70">
+                No sessions yet. Start one and the GM agent will draft an outline from your
+                campaign's open threads and NPCs.
+              </p>
+              <Button
+                onClick={newSession}
+                size="sm"
+                className="mt-4 font-display tracking-widest"
+              >
+                <Plus className="size-4" /> PLAN A SESSION
+              </Button>
             </section>
           )}
 
